@@ -12,6 +12,9 @@ notifications:
     on_success: change # default: change (only when going from broken to fixed)
     on_failure: always # default: always (which is annoying, as it should be)
 install:
+  - npm i -g npm@5.7.1
+  # This line neccessary for npm ci to work reference:
+  # https://hackernoon.com/how-to-speed-up-continuous-integration-build-with-new-npm-ci-and-package-lock-json-7647f91751a
   - npm ci # faster, goes only from package-lock
 before_script:
   - psql -c 'create database "boilermaker-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
