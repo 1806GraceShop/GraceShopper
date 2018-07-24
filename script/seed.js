@@ -2,7 +2,7 @@
 
 const db = require('../server/db')
 const {User, Product} = require('../server/db/models')
-const ProductData = require('./ProductData.json')
+const productData = require('./ProductData.json')
 
 /**
  * Welcome to the seed file! This seed file uses a newer language feature called...
@@ -26,16 +26,14 @@ async function seed() {
     User.create({email: 'murphy@email.com', password: '123'})
   ])
 
-  // await Promise.all([
-  //   Product.create({title: 'dog', description: 'jlwnlf', price: 5.00, inventory: 1, imageUrl: 'sfwrsf'})
-  // ])
-
-  await Promise.all(ProductData.map(products =>
+  const products = await Promise.all(productData.map(products =>
     Product.create(products))
   )
 
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
+
+  console.log(`seeded ${productData.length} products`)
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
 }
