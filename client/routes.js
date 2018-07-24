@@ -2,14 +2,15 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, AllProducts} from './components'
-import {me} from './store'
+import {Login, Signup, UserHome, AllProducts, SingleProduct} from './components'
+import {me, getProducts} from './store'
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
   componentDidMount() {
+    this.props.getProducts()
     this.props.loadInitialData()
   }
 
@@ -18,7 +19,8 @@ class Routes extends Component {
 
     return (
       <Switch>
-        <Route exact path='/' component={AllProducts} />
+        <Route exact path="/" component={AllProducts} />
+        <Route exact path="/:productId" component={SingleProduct} />
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
@@ -48,6 +50,7 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
+    getProducts: () => dispatch(getProducts()),
     loadInitialData() {
       dispatch(me())
     }
