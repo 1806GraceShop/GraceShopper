@@ -1,10 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getProducts} from '../store'
 
 class SingleProduct extends React.Component {
   render() {
-    console.log('this.props', this.props)
     const {title, imageURL, description, inventory, price} = this.props.product
     return (
       <div className="container">
@@ -35,16 +33,11 @@ class SingleProduct extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  getProducts: () => dispatch(getProducts())
-})
-
 const mapStateToProps = (state, ownProps) => {
-  console.log('state.products = ', state.products)
   const id = Number(ownProps.match.params.productId)
   return {
     product: state.products.byId[id] || state.products.byId[0]
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SingleProduct)
+export default connect(mapStateToProps)(SingleProduct)
