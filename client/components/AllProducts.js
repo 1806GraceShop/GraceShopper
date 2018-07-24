@@ -36,9 +36,14 @@ class AllProducts extends React.Component {
     return (
       <div className="container">
         <div className="row">
-          {this.props.products.map(product => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+          <div className="col s12 m4 l3">
+            <p>Filtering Placeholder</p>
+          </div>
+          <div className="col s12 m8 l9">
+            {this.props.products.map(product => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
         </div>
       </div>
     )

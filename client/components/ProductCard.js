@@ -1,7 +1,7 @@
 import React from 'react'
 
 const ProductCard = ({product}) => (
-  <div className="col s12 m6 l4 xl3">
+  <div className="col s12 m4 l3">
     <div className="card large">
       <div className="card-image">
         <img src={product.imageURL} />
