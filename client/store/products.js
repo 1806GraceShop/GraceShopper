@@ -11,7 +11,7 @@ const GET_PRODUCTS = 'GET_PRODUCTS'
  */
 const defaultProducts = {
   byId: {
-    '0': {
+    0: {
       id: 0,
       title: 'Loading...',
       description: 'Loading...',

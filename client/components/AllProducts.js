@@ -28,10 +28,6 @@ import {getAvailableProducts, getProducts} from '../store'
 // ]
 
 class AllProducts extends React.Component {
-  componentDidMount() {
-    this.props.getProducts()
-  }
-
   render() {
     return (
       <div className="container">

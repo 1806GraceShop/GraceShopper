@@ -1,30 +1,18 @@
 import React from 'react'
 import {connect} from 'react-redux'
-// import {getAvailableProducts, getProducts} from '../store'
-
-// const dummyData = {
-//   name: 'Product Name',
-//   id: 1,
-//   description: 'Test description',
-//   price: 3.0,
-//   quantity: 10,
-//   imageUrl: 'https://www.fillmurray.com/200/300'
-// }
+import {getProducts} from '../store'
 
 class SingleProduct extends React.Component {
-  componentDidMount() {
-    //componentDidMount is only here so my linter won't yell at me regarding this being a class component
-  }
-
   render() {
-    const {name, imageUrl, description, quantity, price} = this.props.product
+    console.log('this.props', this.props)
+    const {title, imageURL, description, inventory, price} = this.props.product
     return (
       <div className="container">
         <div className="row">
           <div className="col s6">
-            <h4>{name}</h4>
+            <h4>{title}</h4>
             <h6>${price}</h6>
-            <h6>Qty: {quantity}</h6>
+            <h6>Qty: {inventory}</h6>
             <p>{description}</p>
             <div className="row">
               <a className="col s3 waves-effect waves-light btn">
@@ -34,7 +22,7 @@ class SingleProduct extends React.Component {
             </div>
           </div>
           <div className="col s6">
-            <img src={imageUrl} />
+            <img src={imageURL} />
           </div>
           <div className="col s12">
             <h5>Reviews</h5>
@@ -48,13 +36,14 @@ class SingleProduct extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  //   // getProducts: () => dispatch(getProducts())
+  getProducts: () => dispatch(getProducts())
 })
 
 const mapStateToProps = (state, ownProps) => {
-  const id = ownProps.match.params.productId
+  console.log('state.products = ', state.products)
+  const id = Number(ownProps.match.params.productId)
   return {
-    product: state.byId[id]
+    product: state.products.byId[id] || state.products.byId[0]
   }
 }
 
