@@ -40,7 +40,7 @@ const gotProducts = products => ({
 // TODO: Think about whether we need to check auth in any of these.
 export const getProducts = () => dispatch => {
   axios
-    .post(`/api/products`)
+    .get(`/api/products`)
     .then(products => dispatch(gotProducts(products)))
     .catch(error => console.error(error))
 }
