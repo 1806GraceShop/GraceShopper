@@ -5,24 +5,40 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
-  <div>
-    <h1>BOILERMAKER</h1>
+  <div className="navbar-fixed">
     <nav>
-      {isLoggedIn ? (
-        <div>
-          {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
-        </div>
-      ) : (
-        <div>
-          {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-        </div>
-      )}
+      <div className="nav-wrapper container">
+        <Link to="/" href="#" className="brand-logo">
+          <i className="material-icons">store_mall_directory</i>Grace Shopper
+        </Link>
+        {/* TODO: Handle links when viewport gets small. */}
+        <ul className="right">
+          {isLoggedIn ? (
+            <div>
+              {/* The navbar will show these links after you log in */}
+              <li>
+                <Link to="/home">Home</Link>
+              </li>
+              <li>
+                <a href="#" onClick={handleClick}>
+                  Logout
+                </a>
+              </li>
+            </div>
+          ) : (
+            <div>
+              {/* The navbar will show these links before you log in */}
+              <li>
+                {' '}
+                <Link to="/login">Login</Link>
+              </li>
+              <li>
+                <Link to="/signup">Sign Up</Link>
+              </li>
+            </div>
+          )}
+        </ul>
+      </div>
     </nav>
     <hr />
   </div>
