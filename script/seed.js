@@ -26,14 +26,14 @@ async function seed() {
     User.create({email: 'murphy@email.com', password: '123'})
   ])
 
-console.log('these are the products', ProductData)
-
-  await Promise.all(ProductData.map(products =>
+  const products = await Promise.all(ProductData.map(products =>
     Product.create(products))
   )
 
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
+
+  console.log(`seeded ${products.length} products`)
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
 }
