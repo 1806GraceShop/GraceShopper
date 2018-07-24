@@ -1,18 +1,24 @@
 import React from 'react'
 
-const ProductCard = props => (
-  <div className="col s12 m4">
-    <div className="card small">
+const ProductCard = ({product}) => (
+  <div className="col s12 m6 l4 xl3">
+    <div className="card large">
       <div className="card-image">
-        <img src={props.imageUrl} />
-        <span className="card-title">{props.name}</span>
+        <img src={product.imageURL} />
       </div>
       <div className="card-content">
-        <p>{props.description}</p>
-        <p>{props.price}</p>
+        <span className="card-title grey-text text-darken-4">
+          {product.title}
+        </span>
       </div>
       <div className="card-action">
-        <a href="#">Add to Card</a>
+        <span>
+          {'$ '}
+          {product.price}
+        </span>
+        <i className="material-icons right green-text" alt="Add to cart">
+          add_shopping_cart
+        </i>
       </div>
     </div>
   </div>
