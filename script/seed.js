@@ -26,8 +26,8 @@ async function seed() {
     User.create({email: 'murphy@email.com', password: '123'})
   ])
 
-  const products = await Promise.all(ProductData.map(products =>
-    Product.create(products))
+  const products = await Promise.all(ProductData.map(product =>
+    Product.create(product))
   )
 
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
