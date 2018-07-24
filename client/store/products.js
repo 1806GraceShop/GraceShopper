@@ -1,9 +1,8 @@
 import axios from 'axios'
 import history from '../history'
 
-/**
- * ACTION TYPES
- */
+// ACTION TYPES
+
 const GET_PRODUCTS = 'GET_PRODUCTS'
 // const REMOVE_USER = 'REMOVE_USER'
 
@@ -24,18 +23,15 @@ const defaultProducts = {
   allIds: []
 }
 
-/**
- * ACTION CREATORS
- */
+// ACTION CREATORS
+
 const gotProducts = products => ({
   type: GET_PRODUCTS,
   products
 })
 // const removeUser = () => ({type: REMOVE_USER})
 
-/**
- * THUNK CREATORS
- */
+// THUNK CREATORS
 
 // TODO: Think about whether we need to check auth in any of these.
 export const getProducts = () => dispatch => {
@@ -45,44 +41,8 @@ export const getProducts = () => dispatch => {
     .catch(error => console.error(error))
 }
 
-// export const me = () => async dispatch => {
-//   try {
-//     const res = await axios.get('/auth/me')
-//     dispatch(getUser(res.data || defaultUser))
-//   } catch (err) {
-//     console.error(err)
-//   }
-// }
+// REDUCER
 
-// export const auth = (email, password, method) => async dispatch => {
-//   let res
-//   try {
-//     res = await axios.post(`/auth/${method}`, {email, password})
-//   } catch (authError) {
-//     return dispatch(getUser({error: authError}))
-//   }
-
-//   try {
-//     dispatch(getUser(res.data))
-//     history.push('/home')
-//   } catch (dispatchOrHistoryErr) {
-//     console.error(dispatchOrHistoryErr)
-//   }
-// }
-
-// export const logout = () => async dispatch => {
-//   try {
-//     await axios.post('/auth/logout')
-//     dispatch(removeUser())
-//     history.push('/login')
-//   } catch (err) {
-//     console.error(err)
-//   }
-// }
-
-/**
- * REDUCER
- */
 export default function(state = defaultProducts, action) {
   switch (action.type) {
     case GET_PRODUCTS:
@@ -93,8 +53,6 @@ export default function(state = defaultProducts, action) {
         }, {}),
         allIds: action.products.map(product => product.id)
       }
-    // case REMOVE_USER:
-    //   return defaultUser
     default:
       return state
   }
