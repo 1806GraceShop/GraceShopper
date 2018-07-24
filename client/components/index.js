@@ -9,3 +9,5 @@ export {Login, Signup} from './auth-form'
 export {default as AllProducts} from './AllProducts'
 export {default as ProductCard} from './ProductCard'
 export {default as SingleProduct} from './SingleProduct'
+export {default as ProductForm} from './ProductForm'
+
