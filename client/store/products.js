@@ -13,11 +13,11 @@ const defaultProducts = {
   byId: {
     '0': {
       id: 0,
-      name: 'Loading...',
+      title: 'Loading...',
       description: 'Loading...',
       price: '$...',
-      quantity: 0,
-      imageUrl: ''
+      inventory: 0,
+      imageURL: ''
     }
   },
   allIds: []
@@ -37,7 +37,7 @@ const gotProducts = products => ({
 export const getProducts = () => dispatch => {
   axios
     .get(`/api/products`)
-    .then(products => dispatch(gotProducts(products)))
+    .then(({data}) => dispatch(gotProducts(data)))
     .catch(error => console.error(error))
 }
 
@@ -59,7 +59,8 @@ export default function(state = defaultProducts, action) {
 }
 
 export const getAvailableProducts = productsState => {
-  return productsState.allIds.map(id => {
-    if (productsState.byId[id].quantity) return productsState.byId[id]
-  })
+  return productsState.allIds.reduce((result, id) => {
+    if (productsState.byId[id].inventory) result.push(productsState.byId[id])
+    return result
+  }, [])
 }
