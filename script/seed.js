@@ -26,9 +26,7 @@ async function seed() {
     User.create({email: 'murphy@email.com', password: '123'})
   ])
 
-  // await Promise.all([
-  //   Product.create({title: 'dog', description: 'jlwnlf', price: 5.00, inventory: 1, imageUrl: 'sfwrsf'})
-  // ])
+console.log('these are the products', ProductData)
 
   await Promise.all(ProductData.map(products =>
     Product.create(products))
