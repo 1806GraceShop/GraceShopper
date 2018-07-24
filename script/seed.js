@@ -1,7 +1,8 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {User, Product} = require('../server/db/models')
+const ProductData = require('./ProductData.json')
 
 /**
  * Welcome to the seed file! This seed file uses a newer language feature called...
@@ -24,6 +25,15 @@ async function seed() {
     User.create({email: 'cody@email.com', password: '123'}),
     User.create({email: 'murphy@email.com', password: '123'})
   ])
+
+  // await Promise.all([
+  //   Product.create({title: 'dog', description: 'jlwnlf', price: 5.00, inventory: 1, imageUrl: 'sfwrsf'})
+  // ])
+
+  await Promise.all(ProductData.map(products =>
+    Product.create(products))
+  )
+
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
   console.log(`seeded ${users.length} users`)
@@ -56,3 +66,9 @@ if (module === require.main) {
 
 // we export the seed function for testing purposes (see `./seed.spec.js`)
 module.exports = seed
+
+
+
+
+
+
