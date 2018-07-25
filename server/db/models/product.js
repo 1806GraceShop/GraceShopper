@@ -42,6 +42,11 @@ const Product  = db.define('product', {
         validate: {
             notEmpty: true
         }
+    },
+    available: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: true
     }
 })
 
