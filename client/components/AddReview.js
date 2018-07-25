@@ -1,9 +1,9 @@
 import React from 'react'
 import {ReviewForm} from '../components'
-import {postReview, getReviews} from '../store'
+import {postReview} from '../store'
 import {connect} from 'react-redux'
 
-class AddReviews extends React.Component {
+class AddReview extends React.Component {
   submit = addedReview => {
     this.props.postReview(addedReview)
     //this will redirect to the thunk id
@@ -20,5 +20,5 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(AddReviews)
+export default connect(null, mapDispatchToProps)(AddReview)
 

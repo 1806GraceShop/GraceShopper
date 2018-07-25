@@ -31,7 +31,6 @@ export const getReviews = () => dispatch => {
     .get(`/api/reviews`)
     .then(({data}) => {
       dispatch(gotReviews(data))
-      history.push(`/review/${data.id}`)
     }
   )
     .catch(error => console.error(error))

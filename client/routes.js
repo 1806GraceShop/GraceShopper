@@ -43,8 +43,8 @@ class Routes extends Component {
           <Switch>
             <Route exact path="/product/add" component={AddProduct} />
             <Route path="/product/:productId/edit" component={EditProduct} />
-            <Route exact path="/review/add" component={AddReview} />
-            <Route path="/review/:reviewId/edit" component={EditReview} />
+            <Route path="/review/add" component={(AddReview)} />
+            {/* <Route path="/review/:reviewId/edit" component={EditReview} /> */}
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
           </Switch>
