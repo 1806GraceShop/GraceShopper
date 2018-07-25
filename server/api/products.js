@@ -20,6 +20,22 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.post('/', async (req, res, next) => {
+  try {
+    const products = await Product.create({
+      title: req.body.title,
+      description: req.body.description,
+      price: req.body.price,
+      inventory: req.body.inventory,
+      imageURL: req.body.imageURL
+    })
+    res.json(products)
+  } catch (err) {
+    next(err)
+  }
+})
+
+
 /* TODO: Add isAdmin*/
 router.put('/:productId', (req, res, next) => {
   if (req.body.id && +req.body.id !== +req.params.productId) {
@@ -36,3 +52,4 @@ router.put('/:productId', (req, res, next) => {
       .catch(next)
   }
 })
+
