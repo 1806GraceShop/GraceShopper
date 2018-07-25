@@ -1,6 +1,7 @@
 const User = require('./user')
 const Product = require('./product')
 const Category = require('./category')
+const ProductCategory = require('./productCategory')
 const Order = require('./order')
 const OrderLineItem = require('./orderLineItem')
 const Review = require('./review')
@@ -30,6 +31,7 @@ module.exports = {
   User,
   Product,
   Category,
+  ProductCategory,
   Order,
   OrderLineItem,
   Review

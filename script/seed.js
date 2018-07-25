@@ -1,15 +1,11 @@
 'use strict'
 
 const db = require('../server/db')
-const {User,
-  Product,
-  Category,
-  Order,
-  OrderLineItem,
-  Review} = require('../server/db/models')
+const {User, Product, Category, ProductCategory, Order, OrderLineItem, Review} = require('../server/db/models')
 
 const productData = require('./ProductData.json')
 const categoriesData = require('./CategoriesData.json')
+const productCategoriesData = require('./ProductCategoriesData.json')
 
 async function seed() {
   await db.sync({force: true})
@@ -28,6 +24,11 @@ async function seed() {
   const categories = await Promise.all(
     categoriesData.map(category => Category.create(category))
   )
+  
+  const productCategories = await Promise.all(
+    productCategoriesData.map(productCategory => ProductCategory.create(productCategory))
+
+  )
 
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
@@ -35,6 +36,7 @@ async function seed() {
   console.log(`seeded ${products.length} products`)
   console.log(`seeded ${categories.length} products`)
   console.log(`seeded ${users.length} users`)
+  console.log(`seeded ${productCategories.length} productCategory associations`)
   console.log(`seeded successfully`)
 }
 
