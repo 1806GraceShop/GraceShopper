@@ -35,15 +35,14 @@ const gotProducts = products => ({
   products
 })
 
-
 const addProduct = product => ({
   type: ADD_PRODUCT,
   product
+})
 
 const productUpdated = updatedProduct => ({
   type: PRODUCT_UPDATED,
   updatedProduct
-
 })
 // const removeUser = () => ({type: REMOVE_USER})
 
@@ -57,24 +56,21 @@ export const getProducts = () => dispatch => {
     .catch(error => console.error(error))
 }
 
-
-export const postProduct = (newProduct) => dispatch => {
+export const postProduct = newProduct => dispatch => {
   axios
     .post('/api/products', newProduct)
-    .then(
-      ({data}) => {
-        dispatch(addProduct(data))
-        history.push(`/product/${data.id}`)
-      }
-    )
+    .then(({data}) => {
+      dispatch(addProduct(data))
+      history.push(`/product/${data.id}`)
+    })
     .catch(error => console.error(error))
+}
 
 export const updateProductById = product => dispatch => {
   axios
     .put(`/api/products/${product.id}`, product)
     .then(({data}) => dispatch(productUpdated(data)))
     .catch(err => console.error(err))
-
 }
 
 // REDUCER
@@ -89,12 +85,11 @@ export default function(state = defaultProducts, action) {
         }, {}),
         allIds: action.products.map(product => product.id)
       }
-
     case ADD_PRODUCT:
       return {
         byId: {...state.byId, [action.product.id]: action.product},
         allIds: [...state.allIds, action.product.id]
-
+      }
     case PRODUCT_UPDATED:
       return {
         byId: {
@@ -102,7 +97,6 @@ export default function(state = defaultProducts, action) {
           [action.updatedProduct.id]: action.updatedProduct
         },
         allIds: [...state.allIds]
-
       }
     default:
       return state
@@ -115,4 +109,3 @@ export const getAvailableProducts = productsState => {
     return result
   }, [])
 }
-
