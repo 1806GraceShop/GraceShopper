@@ -28,7 +28,6 @@ User.hasMany(Review)
 Review.belongsTo(User)
 
 Cart.belongsTo(User)
-Cart.belongsTo(Session)
 Cart.hasMany(CartLineItem)
 Product.belongsToMany(Cart, {through: CartLineItem})
 
