@@ -10,4 +10,5 @@ export {default as AllProducts} from './AllProducts'
 export {default as ProductCard} from './ProductCard'
 export {default as SingleProduct} from './SingleProduct'
 export {default as ProductForm} from './ProductForm'
-
+export {default as AddProduct} from './AddProduct'
+export {default as EditProduct} from './EditProduct'

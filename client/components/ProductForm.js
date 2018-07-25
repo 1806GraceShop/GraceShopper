@@ -1,109 +1,88 @@
 import React from 'react'
+import {Field, reduxForm} from 'redux-form'
+import {connect} from 'react-redux'
 
-// TESTER
-
-{
-  /* <ProductForm
-          product={{
-            title: 'Test',
-            price: '3.50',
-            description: 'test description',
-            inventory: 3,
-            imageUrl:
-              'https://m.media-amazon.com/images/M/MV5BMTQ1OTM0MjEwOF5BMl5BanBnXkFtZTYwNTQwNzI1._V1_.jpg'
-          }}
-        /> */
+let ProductForm = props => {
+  const {handleSubmit, pristine, submitting} = props
+  return (
+    <div className="container">
+      <h3>Add/Edit Product </h3>
+      <br />
+      <form className="row" onSubmit={handleSubmit}>
+        <div className="col s12 input-field">
+          <Field name="title" component="input" type="text" />
+          <label htmlFor="title">Product Name</label>
+        </div>
+        <div className="col s12 m6 input-field">
+          <Field name="price" component="input" type="number" />
+          <label htmlFor="price">Product Price</label>
+          {/* <span className="helper-text">Cannot be empty, must be > 0</span> */}
+        </div>
+        <div className="col s12 m6 input-field">
+          <Field name="inventory" component="input" type="number" />
+          <label className={props.active} htmlFor="inventory">
+            Product Inventory
+          </label>
+        </div>
+        <div className="col s12 input-field">
+          <Field
+            name="imageURL"
+            component="input"
+            type="url"
+            className="validate"
+          />
+          <label htmlFor="imageURL">Product Image Url</label>
+          <span
+            className="helper-text"
+            data-error="Invalid URL"
+            data-success="Valid URL!"
+          >
+            Must be a valid URL.
+          </span>
+        </div>
+        <div className="col s12 input-field">
+          <Field name="categories" component="input" type="text" />
+          <label htmlFor="catagories">Categories Placeholder Field</label>
+        </div>
+        <div className="col s12 input-field">
+          <Field
+            id="description"
+            name="description"
+            component="textarea"
+            className="materialize-textarea"
+          />
+          <label htmlFor="description">Product Description</label>
+        </div>
+        <button
+          className="btn waves-effect waves-light"
+          disabled={pristine || submitting}
+          type="submit"
+        >
+          Submit
+          <i className="material-icons right">send</i>
+        </button>
+      </form>
+      {/* Hackish, needs to be rethought, but neccessary to keep materialize from
+      blocking input with labels. see https://materializecss.com/text-inputs.html */}
+      <script>
+        {setTimeout(() => {
+          // M.AutoInit()
+          M.updateTextFields()
+          M.textareaAutoResize(document.getElementById('description'))
+        }, 1)}
+      </script>
+    </div>
+  )
 }
 
-const ProductForm = props => (
-  <form onSubmit={props.submitFn}>
-    <div className="input-field">
-      <input
-        type="text"
-        name="title"
-        value={props.product.title}
-        onChange={props.changeFn}
-      />
-      <label className={props.active} htmlFor="title">
-        Product Title
-      </label>
-      <span className="helper-text">Cannot be empty</span>
-    </div>
-    <div className="input-field">
-      <input
-        type="number"
-        name="price"
-        value={props.product.price}
-        onChange={props.changeFn}
-      />
-      <label className={props.active} htmlFor="price">
-        Product Price
-      </label>
-      <span className="helper-text">Cannot be empty, must be > 0</span>
-    </div>
-    <div className="input-field">
-      <input
-        type="number"
-        name="inventory"
-        value={props.product.inventory}
-        onChange={props.changeFn}
-      />
-      <label className={props.active} htmlFor="inventory">
-        Product Inventory
-      </label>
-      <span className="helper-text">Cannot be empty, must be >= 0</span>
-    </div>
-    <div className="input-field">
-      <input
-        type="url"
-        name="imageURL"
-        className="validate"
-        value={props.product.imageUrl}
-        onChange={props.changeFn}
-      />
-      <label className={props.active} htmlFor="imageURL">
-        product Image Url
-      </label>
-      <span
-        className="helper-text"
-        data-error="Invalid URL"
-        data-success="Valid URL!"
-      >
-        Must be a valid URL.
-      </span>
-    </div>
-    <div className="input-field">
-      <textarea
-        id="resizeTextArea"
-        name="description"
-        className="materialize-textarea"
-        value={props.product.description}
-        onChange={props.changeFn}
-      />
-      <label className={props.active} htmlFor="description">
-        Product Description
-      </label>
-    </div>
-    <p>Categories Placeholder</p>
-    <button
-      className="btn waves-effect waves-light"
-      disabled={
-        !props.product.title || !props.product.price || !props.product.inventory
-      }
-      type="submit"
-    >
-      Submit
-      <i className="material-icons right">send</i>
-    </button>
-    {/* TODO: Necessary for materialize to init, move to a helper script file
-      and load that in the html file? */}
-    {[
-      () =>
-        setTimeout(() => {
-          M.textareaAutoResize($('#resizeTextArea'))
-        }, 100)
-    ].forEach(func => func())}
-  </form>
-)
+const mapDispatchToProps = dispatch => ({})
+
+const mapStateToProps = (state, {match}) => ({
+  // This `initialValues` variable name below is required by redux-forms
+  initialValues: state.products.byId[match.params.productId]
+})
+
+ProductForm = reduxForm({form: 'productForm'})(ProductForm)
+ProductForm = connect(mapStateToProps, mapDispatchToProps)(ProductForm)
 
 export default ProductForm
