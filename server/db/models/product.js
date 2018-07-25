@@ -1,4 +1,3 @@
-const Category = require('./category')
 const db = require('../db')
 const Sequelize = require('sequelize')
 

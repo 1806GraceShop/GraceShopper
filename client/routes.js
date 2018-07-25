@@ -9,9 +9,11 @@ import {
   AllProducts,
   SingleProduct,
   AddProduct,
-  EditProduct
+  EditProduct,
+  AddReview,
+  EditReview
 } from './components'
-import {me, getProducts} from './store'
+import {me, getProducts, getReviews} from './store'
 
 /**
  * COMPONENT
@@ -20,6 +22,7 @@ class Routes extends Component {
   componentDidMount() {
     this.props.getProducts()
     this.props.loadInitialData()
+    this.props.getReviews()
   }
 
   render() {
@@ -40,6 +43,8 @@ class Routes extends Component {
           <Switch>
             <Route exact path="/product/add" component={AddProduct} />
             <Route path="/product/:productId/edit" component={EditProduct} />
+            <Route exact path="/review/add" component={AddReview} />
+            <Route path="/review/:reviewId/edit" component={EditReview} />
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
           </Switch>
@@ -67,7 +72,9 @@ const mapDispatch = dispatch => {
     getProducts: () => dispatch(getProducts()),
     loadInitialData() {
       dispatch(me())
-    }
+    },
+    getReviews: () => dispatch(getReviews())
+
   }
 }
 
