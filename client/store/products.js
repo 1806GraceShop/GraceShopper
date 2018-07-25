@@ -4,6 +4,7 @@ import history from '../history'
 // ACTION TYPES
 
 const GET_PRODUCTS = 'GET_PRODUCTS'
+const ADD_PRODUCT = 'ADD_PRODUCT'
 // const REMOVE_USER = 'REMOVE_USER'
 
 /**
@@ -29,6 +30,11 @@ const gotProducts = products => ({
   type: GET_PRODUCTS,
   products
 })
+
+const addProduct = product => ({
+  type: ADD_PRODUCT,
+  product
+})
 // const removeUser = () => ({type: REMOVE_USER})
 
 // THUNK CREATORS
@@ -38,6 +44,18 @@ export const getProducts = () => dispatch => {
   axios
     .get(`/api/products`)
     .then(({data}) => dispatch(gotProducts(data)))
+    .catch(error => console.error(error))
+}
+
+export const postProduct = (newProduct) => dispatch => {
+  axios
+    .post('/api/products', newProduct)
+    .then(
+      ({data}) => {
+        dispatch(addProduct(data))
+        history.push(`/product/${data.id}`)
+      }
+    )
     .catch(error => console.error(error))
 }
 
@@ -53,6 +71,11 @@ export default function(state = defaultProducts, action) {
         }, {}),
         allIds: action.products.map(product => product.id)
       }
+    case ADD_PRODUCT:
+      return {
+        byId: {...state.byId, [action.product.id]: action.product},
+        allIds: [...state.allIds, action.product.id]
+      }
     default:
       return state
   }
@@ -64,3 +87,4 @@ export const getAvailableProducts = productsState => {
     return result
   }, [])
 }
+
