@@ -2,6 +2,11 @@ const router = require('express').Router()
 const {Review} = require('../db/models')
 module.exports = router
 
+const createReviewFromJSON = ele => ({
+  rating: '' + ele.rating,
+  body: '' + ele.body,
+})
+
 router.get('/', async (req, res, next) => {
   try {
     const reviews = await Review.findAll({})
@@ -26,3 +31,5 @@ router.put('/:reviewId', (req, res, next) => {
       .catch(next)
   }
 })
+
+
