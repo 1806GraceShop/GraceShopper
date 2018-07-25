@@ -16,6 +16,15 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.post('/', async (req, res, next) => {
+  try {
+    const products = await Review.create(createReviewFromJSON(req.body))
+    res.json(products)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.put('/:reviewId', (req, res, next) => {
   if (req.body.id && +req.body.id !== +req.params.reviewId) {
     next(new Error('Bad Request detected in PUT /:reviewId'))

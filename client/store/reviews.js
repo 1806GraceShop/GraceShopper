@@ -29,7 +29,11 @@ const gotReviews = reviews => ({
 export const getReviews = () => dispatch => {
   axios
     .get(`/api/reviews`)
-    .then(({data}) => dispatch(gotReviews(data)))
+    .then(({data}) => {
+      dispatch(gotReviews(data))
+      history.push(`/review/${data.id}`)
+    }
+  )
     .catch(error => console.error(error))
 }
 
