@@ -43,14 +43,12 @@ let ReviewForm = props => {
   )
 }
 
-const mapDispatchToProps = dispatch => ({})
-
 const mapStateToProps = (state, {match}) => ({
   // This `initialValues` variable name below is required by redux-forms
   initialValues: state.reviews.byId[match.params.reviewId]
 })
 
 ReviewForm = reduxForm({form: 'reviewFrom'})(ReviewForm)
-ReviewForm = connect(mapStateToProps, mapDispatchToProps)(ReviewForm)
+ReviewForm = connect(mapStateToProps, null)(ReviewForm)
 
 export default ReviewForm

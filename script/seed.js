@@ -1,17 +1,13 @@
 'use strict'
 
 const db = require('../server/db')
-const {User,
-  Product,
-  Category,
-  Order,
-  OrderLineItem,
-  Review} = require('../server/db/models')
+const {User, Product, Category, ProductCategory, Order, OrderLineItem, Review} = require('../server/db/models')
 
 const productData = require('./ProductData.json')
 const categoriesData = require('./CategoriesData.json')
 const reviewsData = require('./ReviewsData.json')
 
+const productCategoriesData = require('./ProductCategoriesData.json')
 
 async function seed() {
   await db.sync({force: true})
@@ -29,6 +25,11 @@ async function seed() {
 
   const categories = await Promise.all(
     categoriesData.map(category => Category.create(category))
+  )
+  
+  const productCategories = await Promise.all(
+    productCategoriesData.map(productCategory => ProductCategory.create(productCategory))
+
   )
 
   const reviews = await Promise.all(

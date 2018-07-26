@@ -3,7 +3,7 @@ const {Review} = require('../db/models')
 module.exports = router
 
 const createReviewFromJSON = ele => ({
-  rating: '' + ele.rating,
+  rating: +ele.rating,
   body: '' + ele.body,
 })
 
