@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 
 class SingleProduct extends React.Component {
   render() {
@@ -13,9 +14,12 @@ class SingleProduct extends React.Component {
             <h6>Qty: {inventory}</h6>
             <p>{description}</p>
             <div className="row">
-              <a className="col s3 waves-effect waves-light btn">
+              <Link
+                to={`${this.props.match.url}/edit`}
+                className="col s3 waves-effect waves-light btn"
+              >
                 Edit Product
-              </a>
+              </Link>
               <a className="col s3 waves-effect waves-light btn">Add to Cart</a>
             </div>
           </div>
