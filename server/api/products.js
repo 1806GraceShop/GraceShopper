@@ -33,6 +33,8 @@ router.post('/', isAdmin, async (req, res, next) => {
     })
     res.json(products)
   } catch (err) {
+    err.status = 400
+    err.message = {error: err.message}
     next(err)
   }
 })
