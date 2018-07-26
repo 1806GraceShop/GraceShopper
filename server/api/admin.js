@@ -16,3 +16,27 @@ router.post('/addProduct', async (req, res, next) => {
     next(err)
   }
 })
+
+const createProductFromJSON = body => ({
+  title: '' + body.title,
+  description: '' + body.description,
+  price: +body.price,
+  imageURL: '' + body.imageURL,
+  inventory: +body.inventory
+})
+
+router.put('/:productId', (req, res, next) => {
+  if (req.body.id && +req.body.id !== +req.params.productId) {
+    next(new Error('Bad Request detected in PUT /:productId'))
+  } else {
+    Product.update(createProductFromJSON(req.body), {
+      where: {id: +req.params.productId},
+      returning: true
+    })
+      .spread(
+        (done, updatedProd) =>
+          done ? res.json(...updatedProd) : res.status(404).end()
+      )
+      .catch(next)
+  }
+})
