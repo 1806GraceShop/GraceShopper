@@ -27,14 +27,9 @@ const addedItem = cartLineItem => ({
 
 // THUNK CREATORS
 
-let fakeIds = 1
-let fakequantity = 1
-export const addItemToCart = productId => dispatch => {
-  let fakeData = {
-    id: Math.round(Math.random()) ? fakeIds++ : fakeIds,
-    quantity: fakequantity++,
-    productId
-  }
+export const addItemToCart = productId => (dispatch, getStore) => {
+  // TODO -- wire up DB.
+
   dispatch(addedItem(fakeData))
 }
 
@@ -43,6 +38,7 @@ export default function(state = defaultCart, action) {
   switch (action.type) {
     case CART_ADD_ITEM:
       return {
+        ...state,
         byId: {...state.byId, [action.cartLineItem.id]: action.cartLineItem},
         allIds: [
           ...state.allIds.filter(id => id !== action.cartLineItem.id),
@@ -54,5 +50,26 @@ export default function(state = defaultCart, action) {
   }
 }
 
+export const isProductInCart = (cartState, productId) => {
+  Object.values(cartState.allIds).find(
+    lineItem => lineItem.productId === productId
+  )
+}
+
 export const getTotalItemsInCart = cartState =>
   cartState.allIds.reduce((sum, id) => sum + cartState.byId[id].quantity, 0)
+
+// Returns an array of products in the cart, with an extra key that is the
+// current quantity of that product.
+export const getCart = state =>
+  state.cart.allIds.map(lineItemId => {
+    const {productId, quantity} = state.cart.byId[lineItemId]
+    const {title, price} = state.products.byId[productId]
+    return {
+      lineItemId,
+      quantity,
+      productId,
+      title,
+      price
+    }
+  })
