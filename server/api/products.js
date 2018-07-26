@@ -31,10 +31,11 @@ router.post('/', async (req, res, next) => {
     })
     res.json(products)
   } catch (err) {
+    err.status = 400
+    err.message = {error: err.message}
     next(err)
   }
 })
-
 
 /* TODO: Add isAdmin*/
 router.put('/:productId', (req, res, next) => {
@@ -52,4 +53,3 @@ router.put('/:productId', (req, res, next) => {
       .catch(next)
   }
 })
-
