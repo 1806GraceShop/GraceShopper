@@ -5,6 +5,7 @@ const {
   User,
   Product,
   Category,
+  ProductCategory,
   Order,
   OrderLineItem,
   Review,
@@ -14,6 +15,8 @@ const {
 const productData = require('./ProductData.json')
 const categoriesData = require('./CategoriesData.json')
 const cartData = require('./CartData.json')
+const productCategoriesData = require('./ProductCategoriesData.json')
+
 
 async function seed() {
   await db.sync({force: true})
@@ -45,15 +48,26 @@ async function seed() {
     categoriesData.map(category => Category.create(category))
   )
 
+  const productCategories = await Promise.all(
+    productCategoriesData.map(productCategory => ProductCategory.create(productCategory))
+
+  )
+
+  const carts = await Promise.all(cartData.map(cart => Cart.create(cart)))
+
   const carts = await Promise.all(cartData.map(cart => Cart.create(cart)))
 
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
 
   console.log(`seeded ${products.length} products`)
-  console.log(`seeded ${categories.length} products`)
+  console.log(`seeded ${categories.length} categories`)
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${cartData.length} carts successfully`)
+<<<<<<< HEAD
+=======
+  console.log(`seeded ${productCategories.length} productCategory associations`)
+>>>>>>> master
   console.log(`seeded successfully`)
 }
 
