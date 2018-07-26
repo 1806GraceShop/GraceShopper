@@ -4,6 +4,11 @@ import history from '../history'
 // ACTION TYPES
 
 const GET_PRODUCTS = 'GET_PRODUCTS'
+
+const ADD_PRODUCT = 'ADD_PRODUCT'
+
+const PRODUCT_UPDATED = 'PRODUCT_UPDATED'
+
 // const REMOVE_USER = 'REMOVE_USER'
 
 /**
@@ -29,6 +34,16 @@ const gotProducts = products => ({
   type: GET_PRODUCTS,
   products
 })
+
+const addProduct = product => ({
+  type: ADD_PRODUCT,
+  product
+})
+
+const productUpdated = updatedProduct => ({
+  type: PRODUCT_UPDATED,
+  updatedProduct
+})
 // const removeUser = () => ({type: REMOVE_USER})
 
 // THUNK CREATORS
@@ -39,6 +54,23 @@ export const getProducts = () => dispatch => {
     .get(`/api/products`)
     .then(({data}) => dispatch(gotProducts(data)))
     .catch(error => console.error(error))
+}
+
+export const postProduct = newProduct => dispatch => {
+  axios
+    .post('/api/products', newProduct)
+    .then(({data}) => {
+      dispatch(addProduct(data))
+      history.push(`/product/${data.id}`)
+    })
+    .catch(error => console.error(error))
+}
+
+export const updateProductById = product => dispatch => {
+  axios
+    .put(`/api/products/${product.id}`, product)
+    .then(({data}) => dispatch(productUpdated(data)))
+    .catch(err => console.error(err))
 }
 
 // REDUCER
@@ -52,6 +84,19 @@ export default function(state = defaultProducts, action) {
           return result
         }, {}),
         allIds: action.products.map(product => product.id)
+      }
+    case ADD_PRODUCT:
+      return {
+        byId: {...state.byId, [action.product.id]: action.product},
+        allIds: [...state.allIds, action.product.id]
+      }
+    case PRODUCT_UPDATED:
+      return {
+        byId: {
+          ...state.byId,
+          [action.updatedProduct.id]: action.updatedProduct
+        },
+        allIds: [...state.allIds]
       }
     default:
       return state
