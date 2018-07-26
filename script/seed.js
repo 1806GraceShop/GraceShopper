@@ -1,10 +1,12 @@
 'use strict'
 
 const db = require('../server/db')
+
 const {
   User,
   Product,
   Category,
+  ProductCategory,
   Order,
   OrderLineItem,
   Review,
@@ -13,6 +15,7 @@ const {
 
 const productData = require('./ProductData.json')
 const categoriesData = require('./CategoriesData.json')
+const productCategoriesData = require('./ProductCategoriesData.json')
 const cartData = require('./CartData.json')
 
 async function seed() {
@@ -45,6 +48,12 @@ async function seed() {
     categoriesData.map(category => Category.create(category))
   )
 
+  const productCategories = await Promise.all(
+    productCategoriesData.map(productCategory =>
+      ProductCategory.create(productCategory)
+    )
+  )
+
   const carts = await Promise.all(cartData.map(cart => Cart.create(cart)))
 
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
@@ -54,6 +63,7 @@ async function seed() {
   console.log(`seeded ${categories.length} products`)
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${cartData.length} carts successfully`)
+  console.log(`seeded ${productCategories.length} productCategory associations`)
   console.log(`seeded successfully`)
 }
 
