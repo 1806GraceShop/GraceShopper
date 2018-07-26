@@ -58,7 +58,7 @@ export const getProducts = () => dispatch => {
 
 export const postProduct = newProduct => dispatch => {
   axios
-    .post('/api/products', newProduct)
+    .post('/api/admin/addProduct', newProduct)
     .then(({data}) => {
       dispatch(addProduct(data))
       history.push(`/product/${data.id}`)

@@ -39,6 +39,7 @@ router.post('/logout', (req, res) => {
 })
 
 router.get('/me', (req, res) => {
+  console.log('REQ.USER.dataValues.ADMIN =', req.user.dataValues.admin)
   res.json(req.user)
 })
 

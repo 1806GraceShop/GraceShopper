@@ -1,5 +1,7 @@
 const router = require('express').Router()
 const {Product} = require('../db/models')
+const {isAdmin, isAuthenticated} = require('./authMiddleware')
+
 module.exports = router
 
 // Helper functions to shape database requests.
@@ -20,7 +22,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/', isAdmin, async (req, res, next) => {
   try {
     const products = await Product.create({
       title: req.body.title,
@@ -34,7 +36,6 @@ router.post('/', async (req, res, next) => {
     next(err)
   }
 })
-
 
 /* TODO: Add isAdmin*/
 router.put('/:productId', (req, res, next) => {
@@ -52,4 +53,3 @@ router.put('/:productId', (req, res, next) => {
       .catch(next)
   }
 })
-
