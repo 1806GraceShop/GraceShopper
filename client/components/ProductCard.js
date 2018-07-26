@@ -2,7 +2,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 
 const ProductCard = ({product}) => (
-  <div className="col s12 m4 l3">
+  <div className="col s12 m6 xl4">
     <div className="card large hoverable">
       <Link to={`/product/${product.id}`}>
         <div className="card-image">

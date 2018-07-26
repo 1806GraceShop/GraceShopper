@@ -9,51 +9,40 @@ const SingleProduct = props => {
     <div className="container">
       <br />
       <div className="row">
-        <div className="col s6">
-          <h4>{title}</h4>
-          <div className="col s6">${price}</div>
-          <div className="col s6">
+        <div className="col s12">
+          <div className="card red lighten-5  center-align">
+            <div className="card-content">
+              <div className="flow-text">Admin Tools</div>
+              <div className="flow-text">
+                (We have {inventory} of this product left.)
+              </div>
+              <Link
+                to={`${props.match.url}/edit`}
+                className="waves-effect red waves-light btn"
+              >
+                Edit Product
+                <i className="material-icons right">edit</i>
+              </Link>
+            </div>
+          </div>
+        </div>
+        <h3 className="col s12">{title}</h3>
+        <div className="col s12 m5 push-m7 center-align">
+          <img className="responsive-img" src={imageURL} />
+        </div>
+        <div className="col s12 m7 pull-m5 center-align">
+          <h6 className="col s12 m3 flow-text">${price}</h6>
+          <div className="col s12 m9">
             <AddToCartButton prodId={props.product.id} />
           </div>
-          <h4>{title}</h4>
-          <h6>${price}</h6>
-          <h6>Qty: {inventory}</h6>
-          <p>{description}</p>
-          <div className="row">
-            <Link
-              to={`${props.match.url}/edit`}
-              className="col s3 waves-effect waves-light btn"
-            >
-              Edit Product
-            </Link>
-            <a className="col s3 waves-effect waves-light btn">Add to Cart</a>
-          </div>
         </div>
-        <div className="col s6">
-          <img src={imageURL} />
-        </div>
-        <div className="col s12">
-          <h5>Reviews</h5>
-          <h6>First Review Title</h6>
-          <p>Reviews content here...</p>
-        </div>
-        <h6>Product Stock: {inventory}</h6>
-        <p>{description}</p>
-        <Link
-          to={`${props.match.url}/edit`}
-          className="waves-effect red waves-light btn"
-        >
-          Edit Product
-          <i className="material-icons right">edit</i>
-        </Link>
-        <div className="col s6">
-          <img src={imageURL} />
-        </div>
-        <div className="col s12">
-          <h5>Reviews</h5>
-          <h6>First Review Title</h6>
-          <p>Reviews content here...</p>
-        </div>
+        <p className="col s12 m7 pull-m5">{description}</p>
+      </div>
+      <br />
+      <div className="col s12">
+        <h5>Reviews</h5>
+        <h6>First Review Title</h6>
+        <p>Reviews content here...</p>
       </div>
     </div>
   )
