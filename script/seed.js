@@ -15,7 +15,9 @@ const {
 const cartData = require('./CartData.json')
 const productData = require('./ProductData.json')
 const categoriesData = require('./CategoriesData.json')
+const cartData = require('./CartData.json')
 const productCategoriesData = require('./ProductCategoriesData.json')
+
 
 async function seed() {
   await db.sync({force: true})
@@ -61,6 +63,7 @@ async function seed() {
   console.log(`seeded ${products.length} products`)
   console.log(`seeded ${categories.length} categories`)
   console.log(`seeded ${users.length} users`)
+  console.log(`seeded ${cartData.length} carts successfully`)
   console.log(`seeded ${productCategories.length} productCategory associations`)
   console.log(`seeded ${cartData.length} carts successfully`)
   console.log(`seeded successfully`)
