@@ -1,4 +1,5 @@
 const isAdmin = (req, res, next) => {
+  console.log('req.user.dataValues', req.user.dataValues)
   const error = new Error('User is not Admin')
   error.status = 400
   if (!req.user || !req.user.dataValues.admin) {
