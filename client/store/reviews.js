@@ -16,6 +16,8 @@ const defaultReviews = {
       id: 0,
       rating: 0,
       description: 'Loading...',
+      productId: null,
+      userId: null
     }
   },
   allIds: []
@@ -46,11 +48,14 @@ export const getReviews = () => dispatch => {
 }
 
 export const postReview = newReview => dispatch => {
+  console.log('this is new Review', newReview)
+
   axios
     .post('/api/reviews', newReview)
     .then(({ data }) => {
+
         dispatch(addReview(data))
-        console.log('this is the data', data)
+
 
         history.push(`/review/${data.productId}/${data.id}`)
       }
@@ -95,4 +100,14 @@ export default function (state = defaultReviews, action) {
     default:
       return state
   }
+}
+
+//SELECTOR
+
+export const getProductsReviews = (reviewsState, urlProductId) => {
+  return reviewsState.allIds.reduce((result, id) => {
+    if (reviewsState.byId[id].productId === urlProductId) 
+      result.push(reviewsState.byId[id])
+      return result
+  }, [])
 }

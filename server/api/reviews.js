@@ -5,6 +5,7 @@ module.exports = router
 const createReviewFromJSON = ele => ({
   rating: +ele.rating,
   body: '' + ele.body,
+  productId: +ele.productId,
 })
 
 router.get('/', async (req, res, next) => {
@@ -18,8 +19,9 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const products = await Review.create(createReviewFromJSON(req.body))
-    res.json(products)
+    console.log('this is the review', req.body)
+    const reviews = await Review.create(createReviewFromJSON(req.body))
+    res.json(reviews)
   } catch (err) {
     next(err)
   }

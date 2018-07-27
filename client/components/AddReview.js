@@ -5,6 +5,8 @@ import {connect} from 'react-redux'
 
 class AddReview extends React.Component {
   submit = addedReview => {
+    const currentProductId = this.props.match.params.productId
+    addedReview.productId = Number(currentProductId)
     this.props.postReview(addedReview)
     //this will redirect to the thunk id
   }

@@ -103,6 +103,8 @@ export default function(state = defaultProducts, action) {
   }
 }
 
+// SELECTOR
+
 export const getAvailableProducts = productsState => {
   return productsState.allIds.reduce((result, id) => {
     if (productsState.byId[id].inventory) result.push(productsState.byId[id])
