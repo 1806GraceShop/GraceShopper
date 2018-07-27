@@ -15,5 +15,7 @@ export {default as EditProduct} from './EditProduct'
 export {default as AddReview} from './AddReview'
 export {default as EditReview} from './EditReview'
 export {default as ReviewForm} from './ReviewForm'
+export {default as SingleReview} from './SingleReview'
+
 
 

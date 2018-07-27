@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
+import SingleReview from './SingleReview'
 
 class SingleProduct extends React.Component {
   render() {
@@ -26,11 +27,13 @@ class SingleProduct extends React.Component {
           <div className="col s6">
             <img src={imageURL} />
           </div>
-          <div className="col s12">
+          {/* <div className="col s12">
             <h5>Reviews</h5>
             <h6>First Review Title</h6>
             <p>Reviews content here...</p>
-          </div>
+          </div> */}
+          <SingleReview />
+
         </div>
       </div>
     )

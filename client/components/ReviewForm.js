@@ -11,15 +11,20 @@ let ReviewForm = props => {
       <form className="row" onSubmit={handleSubmit}>
         <div className="col s12 input-field">
           <Field
-            id="description"
-            name="description"
+            id="body"
+            name="body"
             component="textarea"
             className="materialize-textarea"
           />
-          <label htmlFor="description">Review</label>
+          <label htmlFor="body">Review</label>
         </div>
         
-        {/* star rating */}
+        <div className="col s12 m6 input-field">
+          <Field name="rating" component="input" type="number" />
+          <label htmlFor="rating">
+            Rating
+          </label>
+        </div>
 
         <button
           className="btn waves-effect waves-light"

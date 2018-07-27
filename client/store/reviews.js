@@ -41,20 +41,18 @@ const reviewUpdated = updatedReview => ({
 export const getReviews = () => dispatch => {
   axios
     .get(`/api/reviews`)
-    .then(({ data }) => {
-      dispatch(gotReviews(data))
-    }
-    )
+    .then(({ data }) => dispatch(gotReviews(data)))
     .catch(error => console.error(error))
 }
 
-export const postReview = (newReview) => dispatch => {
+export const postReview = newReview => dispatch => {
   axios
-    .post('/api/review', newReview)
-    .then(
-      ({ data }) => {
+    .post('/api/reviews', newReview)
+    .then(({ data }) => {
         dispatch(addReview(data))
-        history.push(`/product/${data.id}`)
+        console.log('this is the data', data)
+
+        history.push(`/review/${data.productId}/${data.id}`)
       }
     )
     .catch(error => console.error(error))

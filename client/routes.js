@@ -11,7 +11,8 @@ import {
   AddProduct,
   EditProduct,
   AddReview,
-  EditReview
+  EditReview,
+  SingleReview
 } from './components'
 import {me, getProducts, getReviews} from './store'
 
@@ -36,6 +37,11 @@ class Routes extends Component {
           exact
           path="/product/:productId([0-9]*)"
           component={SingleProduct}
+        />
+        <Route
+          exact
+          path="/review/:productId/:reviewId([0-9]*)"
+          component={SingleReview}
         />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
