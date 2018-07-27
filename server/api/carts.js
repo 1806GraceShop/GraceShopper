@@ -2,12 +2,6 @@ const router = require('express').Router()
 const {Cart, CartItem} = require('../db/models')
 module.exports = router
 
-// Helper functions to shape database requests.
-const createCartUpdateFromJSON = body => ({
-  quantity: +body.quantity,
-  productId: +body.productId
-})
-
 router.post('/', async (req, res, next) => {
   // expects a {quantity, productId} body (will overwrite quantity in the db)
   // if (user.session)
@@ -26,12 +20,13 @@ router.post('/', async (req, res, next) => {
     next(err)
   }
 
+  // Update or create a new line item, based on whether
   let updatedLineItem, created
   try {
     ;[updatedLineItem, created] = await CartItem.insertOrUpdate(
       {
         where: {
-          id: cart.id,
+          cartId: cart.id,
           productId: +req.body.quantity,
           quantity: +req.body.productId
         }
