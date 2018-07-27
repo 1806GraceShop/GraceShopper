@@ -1,58 +1,53 @@
 const router = require('express').Router()
-const {Cart} = require('../db/models')
+const {Cart, CartItem} = require('../db/models')
 module.exports = router
 
 // Helper functions to shape database requests.
 const createCartUpdateFromJSON = body => ({
-  title: '' + body.title,
-  description: '' + body.description,
-  price: +body.price,
-  imageURL: '' + body.imageURL,
-  inventory: +body.inventory
+  quantity: +body.quantity,
+  productId: +body.productId
 })
 
-router.get('/', (req, res, next) => {
-  req.session.cart = true
-  res.json({yo: 'booooye'})
+router.post('/', async (req, res, next) => {
+  // expects a {quantity, productId} body (will overwrite quantity in the db)
+  // if (user.session)
+  // it checks if there is a cart associated with that session.
+  // if not it starts saving that session by setting a cart flag.
+  if (!req.session.cart) req.session.cart = true
+
+  // Now find or create the Cart in that table.
+  let cart
+  try {
+    ;[cart] = await Cart.findOrCreate({
+      where: {sessionId: req.sessionID}
+    })
+  } catch (err) {
+    err.status = 400
+    next(err)
+  }
+
+  let updatedLineItem, created
+  try {
+    ;[updatedLineItem, created] = await CartItem.insertOrUpdate(
+      {
+        where: {
+          id: cart.id,
+          productId: +req.body.quantity,
+          quantity: +req.body.productId
+        }
+      },
+      {
+        options: {
+          validate: true,
+          returning: true
+        }
+      }
+    )
+  } catch (err) {
+    err.status = 400
+    next(err)
+  }
+
+  if (created) res.status(201).send(updatedLineItem)
+  else res.send(200).send(updatedLineItem)
 })
-
-// router.get('/', async (req, res, next) => {
-//   try {
-//     const products = await Product.findAll({})
-//     res.json(products)
-//   } catch (err) {
-//     next(err)
-//   }
-// })
-
-// router.post('/', async (req, res, next) => {
-//   try {
-//     const products = await Product.create({
-//       title: req.body.title,
-//       description: req.body.description,
-//       price: req.body.price,
-//       inventory: req.body.inventory,
-//       imageURL: req.body.imageURL
-//     })
-//     res.json(products)
-//   } catch (err) {
-//     next(err)
-//   }
-// })
-
-// /* TODO: Add isAdmin*/
-// router.put('/:productId', (req, res, next) => {
-//   if (req.body.id && +req.body.id !== +req.params.productId) {
-//     next(new Error('Bad Request detected in PUT /:productId'))
-//   } else {
-//     Product.update(createProductFromJSON(req.body), {
-//       where: {id: +req.params.productId},
-//       returning: true
-//     })
-//       .spread(
-//         (done, updatedProd) =>
-//           done ? res.json(...updatedProd) : res.status(404).end()
-//       )
-//       .catch(next)
-//   }
-// })
