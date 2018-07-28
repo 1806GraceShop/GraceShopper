@@ -55,8 +55,6 @@ async function seed() {
 
   const carts = await Promise.all(cartData.map(cart => Cart.create(cart)))
 
-  const carts = await Promise.all(cartData.map(cart => Cart.create(cart)))
-
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
 
