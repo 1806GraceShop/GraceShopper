@@ -13,9 +13,6 @@ import {
 } from './components'
 import {me, getProducts} from './store'
 
-/**
- * COMPONENT
- */
 class Routes extends Component {
   componentDidMount() {
     this.props.getProducts()
