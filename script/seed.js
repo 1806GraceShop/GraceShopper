@@ -17,7 +17,6 @@ const categoriesData = require('./CategoriesData.json')
 const cartData = require('./CartData.json')
 const productCategoriesData = require('./ProductCategoriesData.json')
 
-
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
@@ -49,8 +48,9 @@ async function seed() {
   )
 
   const productCategories = await Promise.all(
-    productCategoriesData.map(productCategory => ProductCategory.create(productCategory))
-
+    productCategoriesData.map(productCategory =>
+      ProductCategory.create(productCategory)
+    )
   )
 
   const carts = await Promise.all(cartData.map(cart => Cart.create(cart)))
@@ -64,10 +64,7 @@ async function seed() {
   console.log(`seeded ${categories.length} categories`)
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${cartData.length} carts successfully`)
-<<<<<<< HEAD
-=======
   console.log(`seeded ${productCategories.length} productCategory associations`)
->>>>>>> master
   console.log(`seeded successfully`)
 }
 
