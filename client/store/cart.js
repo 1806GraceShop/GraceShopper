@@ -35,8 +35,11 @@ export const getCartItems = () => dispatch =>
     .then(({data}) => dispatch(gotCart(data || [])))
     .catch(err => console.log(err))
 
-export const addItemToCart = productId => dispatch => {
-  dispatch(addedItem(productId))
+export const addItemToCart = lineItem => dispatch => {
+  axios
+    .post('/api/carts/', lineItem)
+    .then(({data}) => dispatch(addedItem(data)))
+    .catch(err => console.error(err))
 }
 
 // REDUCER

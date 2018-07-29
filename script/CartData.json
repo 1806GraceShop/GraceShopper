@@ -1,10 +1,12 @@
 [
   {
     "id": 1,
-    "sessionId": "HkXHlghY1kUBBQqtLseJKopdDniieZ57"
+    "sessionId": "HkXHlghY1kUBBQqtLseJKopdDniieZ57",
+    "userId": 1
   },
   {
     "id": 2,
-    "sessionId": "PPTjOFeC29cRkFJe3K4av-Y0dsf8yegL"
+    "sessionId": "PPTjOFeC29cRkFJe3K4av-Y0dsf8yegL",
+    "userId": 2
   }
 ]
