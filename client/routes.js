@@ -11,9 +11,9 @@ import {
   AddProduct,
   EditProduct
 } from './components'
-import {me, getProducts} from './store'
+import {me, getProducts, getCartItems} from './store'
 
-const ProtectedRoute = ({component: Comp, redirect, condition}) => (
+const ProtectedRoute = ({component: Comp, condition, redirect}) => (
   <Route
     render={props =>
       condition ? <Comp {...props} /> : <Redirect to={redirect} />
@@ -23,13 +23,12 @@ const ProtectedRoute = ({component: Comp, redirect, condition}) => (
 
 class Routes extends Component {
   componentDidMount() {
-    this.props.getProducts()
     this.props.loadInitialData()
   }
 
   render() {
     const {isLoggedIn, isAdmin} = this.props
-    console.log('isAdmin =', isAdmin)
+
     return (
       <Switch>
         {' '}
@@ -83,9 +82,10 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    getProducts: () => dispatch(getProducts()),
     loadInitialData() {
       dispatch(me())
+      dispatch(getProducts())
+      dispatch(getCartItems())
     }
   }
 }

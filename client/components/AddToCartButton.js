@@ -5,7 +5,8 @@ import {addItemToCart} from '../store'
 class AddToCartButton extends React.Component {
   // Expects a prodId prop to be give to it from higher order component.
   add = () => {
-    this.props.addItemToCart(this.props.prodId)
+    const {productId, quantity} = this.props
+    this.props.addItemToCart({productId, quantity})
   }
 
   render() {
@@ -24,9 +25,12 @@ class AddToCartButton extends React.Component {
     )
   }
 }
+const mapStateToProps = (state, ownProps) => ({
+  quantity: state.cart.byProductId[ownProps.productId].quantity || 0
+})
 
 const mapDispatchToProps = dispatch => ({
   addItemToCart: productId => dispatch(addItemToCart(productId))
 })
 
-export default connect(null, mapDispatchToProps)(AddToCartButton)
+export default connect(mapStateToProps, mapDispatchToProps)(AddToCartButton)

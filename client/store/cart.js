@@ -1,53 +1,70 @@
 import axios from 'axios'
 import history from '../history'
 
+// Helpers
+export const ascending = (val1, val2) => val1 - val2
+
 // ACTION TYPES
-const GET_CART = 'GET_CART'
+const GOT_CART = 'GOT_CART'
 const CART_ADD_ITEM = 'CART_ADD_ITEM'
 
 // INITIAL STATE
 const defaultCart = {
-  byId: {
+  byProductId: {
     // [lineItemId : int]: {
     //   productId: 0,
     //   quantity: 0,
     // }
   },
-  allIds: [],
-  sessionId: ''
+  allProductIds: []
+  // sessionId: ''
 }
 
 // ACTION CREATORS
 
-const addedItem = cartLineItem => ({
-  type: CART_ADD_ITEM,
-  cartLineItem
-})
+const addedItem = item => ({type: CART_ADD_ITEM, item})
+const gotCart = items => ({type: GOT_CART, items})
+
 // const removeUser = () => ({type: REMOVE_USER})
 
 // THUNK CREATORS
 
-let fakeIds = 1
-let fakequantity = 1
-export const addItemToCart = productId => dispatch => {
-  let fakeData = {
-    id: Math.round(Math.random()) ? fakeIds++ : fakeIds,
-    quantity: fakequantity++,
-    productId
-  }
-  dispatch(addedItem(fakeData))
+export const getCartItems = () => dispatch =>
+  axios
+    .get('/api/carts/')
+    .then(({data}) => dispatch(gotCart(data || [])))
+    .catch(err => console.log(err))
+
+export const addItemToCart = lineItem => dispatch => {
+  axios
+    .post('/api/carts/', lineItem)
+    .then(({data}) => dispatch(addedItem(data)))
+    .catch(err => console.error(err))
 }
 
 // REDUCER
 export default function(state = defaultCart, action) {
   switch (action.type) {
+    case GOT_CART:
+      return {
+        ...state,
+        byProductId: action.items.reduce((result, item) => {
+          result[item.productId] = item
+          return result
+        }, {}),
+        allProductIds: action.items.map(item => item.productId).sort(ascending)
+      }
     case CART_ADD_ITEM:
       return {
-        byId: {...state.byId, [action.cartLineItem.id]: action.cartLineItem},
-        allIds: [
-          ...state.allIds.filter(id => id !== action.cartLineItem.id),
-          action.cartLineItem.id
-        ]
+        ...state,
+        byProductId: {
+          ...state.byProductId,
+          [action.item.productId]: action.item
+        },
+        allProductIds: state.allProductIds
+          .filter(id => id !== action.item.productId)
+          .concat(action.item.productId)
+          .sort(ascending)
       }
     default:
       return state
@@ -55,4 +72,7 @@ export default function(state = defaultCart, action) {
 }
 
 export const getTotalItemsInCart = cartState =>
-  cartState.allIds.reduce((sum, id) => sum + cartState.byId[id].quantity, 0)
+  cartState.allProductIds.reduce(
+    (sum, id) => sum + cartState.byProductId[id].quantity,
+    0
+  )
