@@ -82,3 +82,10 @@ export const getTotalItemsInCart = cartState =>
     (sum, id) => sum + cartState.byProductId[id].quantity,
     0
   )
+
+export const getCartItemsWithDetails = state =>
+  state.cart.allProductIds.map(id => ({
+    cartItemId: id,
+    product: state.products.byId[id],
+    cartItem: state.cart.byProductId[id]
+  }))
