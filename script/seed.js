@@ -37,7 +37,8 @@ async function seed() {
       lastName: 'murphylastname',
       address: '456 main st, city, ST, ZIP',
       email: 'murphy@email.com',
-      password: '123'
+      password: '123',
+      admin: true
     })
   ])
 
