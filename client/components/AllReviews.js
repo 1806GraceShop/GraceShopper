@@ -1,21 +1,22 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import {getProductsReviews} from '../store'
+import { getProductsReviews } from '../store'
+import {Link} from 'react-router-dom'
 
 class AllReviews extends React.Component {
-    
+
     render() {
         console.log('here is the review object', this.props.review)
 
         return (
             <div className="container">
-                <div className="row">
-                    <div className="col s12 m8 l9">
+                <div className="column">
+                    <div>
                         {this.props.review.map(review => (
-                            <div key = {review.id} className="col s12 m4 l3">
-                                <div className="card large">
+                            <div key={review.id} className="col s12 m4 l3">
+                                <div className="card small">
                                     <div className="card-content">
-                                        <span className="card-title grey-text text-darken-4" id = {`review_${review.id}`}>
+                                        <span className="card-title grey-text text-darken-4" id={`review_${review.id}`}>
                                             {review.body}
                                         </span>
                                     </div>
@@ -23,8 +24,13 @@ class AllReviews extends React.Component {
                                         <span>
                                             {review.rating}
                                         </span>
-                                        <i className="material-icons right green-text">
-                    </i>
+                                        <Link
+                                            to={`/review/${this.props.match.params.productId}/${this.props.match.params.productId}/edit`}
+                                            className="waves-effect right red waves-light btn"
+                                        >
+                                            Edit Review
+                <i className="material-icons right">edit</i>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>

@@ -6,7 +6,7 @@ import {connect} from 'react-redux'
 class EditReview extends React.Component {
   submit = editedReview => {
     this.props.updateReviewById(editedReview)
-    this.props.history.push(`/review/${this.props.match.params.reviewId}`)
+    this.props.history.push(`/review/${this.props.match.params.productId}/${this.props.match.params.reviewId}`)
   }
   render() {
     return <ReviewForm {...this.props} onSubmit={this.submit} />
