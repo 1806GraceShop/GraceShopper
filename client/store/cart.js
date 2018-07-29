@@ -71,6 +71,12 @@ export default function(state = defaultCart, action) {
   }
 }
 
+export const isProductInCart = (cartState, productId) => {
+  Object.values(cartState.allIds).find(
+    lineItem => lineItem.productId === productId
+  )
+}
+
 export const getTotalItemsInCart = cartState =>
   cartState.allProductIds.reduce(
     (sum, id) => sum + cartState.byProductId[id].quantity,

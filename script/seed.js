@@ -13,19 +13,12 @@ const {
   CartItem
 } = require('../server/db/models')
 
-const cartData = require('./CartData.json')
 const productData = require('./ProductData.json')
 const categoriesData = require('./CategoriesData.json')
 const cartData = require('./CartData.json')
-<<<<<<< HEAD
 const cartItemsData = require('./CartLineItemsData.json')
 const productCategoriesData = require('./ProductCategoriesData.json')
 
-=======
-const productCategoriesData = require('./ProductCategoriesData.json')
-
-
->>>>>>> cart-component
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
