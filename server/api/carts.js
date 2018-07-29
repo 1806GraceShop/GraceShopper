@@ -27,10 +27,18 @@ const delErrMsg = sessionId =>
   `CART ERROR [${sessionId}]: Tried to delete cart but no cart cookie set.`
 
 const delResultErrMsg = (id, num) =>
-  `CART ERROR[${id}]: DELETEd ${num} (>1) items from cart.`
+  `CART ERROR[${id}]: DELETE-d ${num} (>1) items from cart.`
 
 router
   .route('/')
+  .get((req, res, next) => {
+    Cart.findOne({where: {sessionId: req.sessionID}})
+      .then(cart =>
+        cart.getCartItems({attributes: ['cartId', 'quantity', 'productId']})
+      )
+      .then(items => (items ? res.send(items) : res.sendStatus(204)))
+      .catch(next)
+  })
   .post((req, res, next) => {
     // it checks if there is a cart associated with that session.
     // if not it starts saving that session by setting a cart flag.
@@ -43,7 +51,7 @@ router
         created && console.log(postMsg(req.sessionID))
         // Let's log if its a new cart.
 
-        return cart.dataValues.id
+        return cart.dataValues.sessionId
         // and pass the id of the cart to the next promise handler
       })
       .then(
@@ -114,7 +122,12 @@ router
         return cart.dataValues.id
       })
       .then(cartId =>
-        CartItem.destroy({where: {cartId, productId: +req.body.productId}})
+        // We don't actually delete a row just set it to zero.
+        // It won't be sent to the frontend.
+        CartItem.update(
+          {quantity: 0},
+          {where: {cartId, productId: +req.body.productId}}
+        )
       )
       .then(numDestroyed => {
         if (numDestroyed === 0) res.sendStatus(410)
