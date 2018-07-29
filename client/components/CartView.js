@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {getCartItemsWithDetails} from '../store'
+import {AddToCartButton, SmallAddToCartButton} from '../components'
 
 /**
  * COMPONENT
@@ -32,9 +33,10 @@ export const CartView = ({cart}) => {
               </td>
               <td className="center-align">{item.cartItem.quantity}</td>
               <td className="left-align">
-                <a className="waves-effect waves-teal btn-small">
-                  <i className="material-icons">add</i>
-                </a>
+                <AddToCartButton
+                  productId={item.product.id}
+                  buttonTypeComponent={SmallAddToCartButton}
+                />
               </td>
             </tr>
           ))}

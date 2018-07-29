@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const {Cart, CartItem} = require('../db/models')
-const err = require('./apiErrorMsgs')
 
 module.exports = router
 
@@ -34,7 +33,7 @@ router
     Cart.findOrCreate({where: query})
       .spread((cart, created) => {
         // Let's log if its a new cart.
-        created && console.log(err.postMsg(req.sessionID))
+        created && console.log(`LOG: Created cart for ${req.sessionID} on POST`)
         return cart.dataValues.id
       })
       .then(cartId => {
@@ -49,62 +48,62 @@ router
       .catch(next)
   })
   .put((req, res, next) => {
-    // See POST route....roughly the same implementation
-    if (!req.session.cart) {
-      req.session.cart = true
-      console.log(err.putSessionErrMsg(req))
-    }
+    let query
 
-    Cart.findOrCreate({where: {sessionId: req.sessionID}})
+    if (req.session.cartId) query = {id: +req.session.cartId}
+    else if (req.session.passport.user)
+      query = {userId: +req.session.passport.user}
+    else query = {sessionId: req.sessionID}
+
+    Cart.findOrCreate({where: query})
       .spread((cart, created) => {
-        created && console.log(err.DBErrMsg(req))
+        created && console.log(`LOG: Created cart for ${req.sessionID} on PUT`)
         return cart.dataValues.id
       })
-      .then(cartId =>
-        CartItem.update(
+      .then(cartId => {
+        req.session.cartId = cartId
+        return CartItem.update(
+          {productId: +req.body.productId, quantity: +req.body.quantity},
           {
-            productId: +req.body.productId,
-            quantity: +req.body.quantity
-          },
-          {
-            where: {
-              productId: +req.body.productId,
-              cartId
-            },
+            where: {cartId, productId: +req.body.productId},
             returning: true
           }
         )
-      )
+      })
       .spread(
-        (affectedCount, updatedItem) =>
+        (affectedCount, updatedItems) =>
           affectedCount === 1
-            ? res.status(200).send(updatedItem)
-            : Error({status: 400, message: err.updateErrMsg(req)})
+            ? res.status(200).send(...updatedItems)
+            : Error({
+                status: 400,
+                message: `Updated multiple rows on cart PUT ${updatedItems}`
+              })
       )
       .catch(next)
   })
   .delete((req, res, next) => {
-    if (!req.session.cart) console.log(err.delErrMsg(req.sessionID))
-    // We'll continue on the chance the session had a cart and this is some
-    // Frontend bug.
-    Cart.findOrCreate({where: {sessionId: req.sessionID}})
-      .spread((cart, created) => {
-        created && console.log(err.DBErrMsg(req))
-        return cart.dataValues.id
-      })
-      .then(cartId =>
-        // We don't actually delete a row just set it to zero.
-        // It won't be sent to the frontend.
-        CartItem.update(
-          {quantity: 0},
-          {where: {cartId, productId: +req.body.productId}}
-        )
-      )
-      .then(numDestroyed => {
-        if (numDestroyed === 0) res.sendStatus(410)
-        if (numDestroyed > 1)
-          console.log(err.delResultErrMsg(req.sessionID, numDestroyed))
-        res.sendStatus(200)
-      })
-      .catch(next)
+    // if (!req.session.cart) console.log(err.delErrMsg(req.sessionID))
+    // // We'll continue on the chance the session had a cart and this is some
+    // // Frontend bug.
+    // Cart.findOrCreate({where: {sessionId: req.sessionID}})
+    //   .spread((cart, created) => {
+    //     created && console.log(err.DBErrMsg(req))
+    //     return cart.dataValues.id
+    //   })
+    //   .then(cartId =>
+    //     // We don't actually delete a row just set it to zero.
+    //     // It won't be sent to the frontend.
+    //     CartItem.update(
+    //       {quantity: 0},
+    //       {where: {cartId, productId: +req.body.productId}}
+    //     )
+    //   )
+    //   .then(numDestroyed => {
+    //     if (numDestroyed === 0) res.sendStatus(410)
+    //     if (numDestroyed > 1)
+    //       console.log(err.delResultErrMsg(req.sessionID, numDestroyed))
+    //     res.sendStatus(200)
+    //   })
+    //   .catch(next)
+    next()
   })
