@@ -13,7 +13,7 @@ import {
 } from './components'
 import {me, getProducts} from './store'
 
-const ProtectedRoute = ({component: Comp, redirect, condition}) => (
+const ProtectedRoute = ({component: Comp, condition, redirect}) => (
   <Route
     render={props =>
       condition ? <Comp {...props} /> : <Redirect to={redirect} />
