@@ -15,7 +15,7 @@ const Review  = db.define('review', {
         allowNull: false,
         validate: {
             notEmpty: true,
-            len: [10, 5000]
+            len: [10, 500]
         }
     }
 })
