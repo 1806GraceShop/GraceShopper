@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom'
 class AllReviews extends React.Component {
 
     render() {
+        console.log('this is the props for reviews', this.props)
         return (
             <div className="container">
                 <div className="column">
@@ -23,7 +24,7 @@ class AllReviews extends React.Component {
                                             {review.rating}
                                         </span>
                                         <Link
-                                            to={`/review/${this.props.match.params.productId}/${this.props.match.params.reviewId}/edit`}
+                                            to={`/review/${this.props.match.params.productId}/${review.id}/edit`}
                                             className="waves-effect right red waves-light btn"
                                         >
                                             Edit Review
