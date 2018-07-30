@@ -9,7 +9,8 @@ import {
   AllProducts,
   SingleProduct,
   AddProduct,
-  EditProduct
+  EditProduct,
+  CartView
 } from './components'
 import {me, getProducts, getCartItems} from './store'
 
@@ -24,6 +25,7 @@ class Routes extends Component {
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route exact path="/" component={AllProducts} />
+        <Route exact path="/cart" component={CartView} />
         <Route
           exact
           path="/product/:productId([0-9]*)"
