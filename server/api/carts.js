@@ -3,6 +3,8 @@ const {Cart, CartItem} = require('../db/models')
 
 module.exports = router
 
+// Middleware.  Checks if user is logged in.  call if checks pass.
+
 router
   .route('/')
   .get((req, res, next) => {
@@ -105,5 +107,8 @@ router
     //     res.sendStatus(200)
     //   })
     //   .catch(next)
-    next()
+    res.sendStatus(405)
   })
+
+
+  .then(([affectedCount,updatedItems])=>{})

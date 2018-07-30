@@ -38,6 +38,10 @@ export const getCartItems = () => dispatch =>
     .then(({data}) => dispatch(gotCart(data || [])))
     .catch(err => console.log(err))
 
+    // multiple operations
+    // POST to create a new cart.
+    // retuns the cart w/ cart Id.
+    // POST api/carts/cartId/lineitems
 export const addItemToCart = lineItem => dispatch => {
   axios
     .post('/api/carts/', lineItem)
@@ -47,7 +51,7 @@ export const addItemToCart = lineItem => dispatch => {
 
 export const editItemInCart = lineItem => dispatch => {
   axios
-    .put('/api/carts/', lineItem)
+    .put('/api/carts/', lineItem) // could be to /api/lineitems/:id
     .then(({data}) => {
       console.log('DATA', data)
       dispatch(editedItem(data))
@@ -67,7 +71,7 @@ export default function(state = defaultCart, action) {
         }, {}),
         allProductIds: action.items.map(item => item.productId).sort(ascending)
       }
-    case CART_ADD_ITEM:
+    case CART_ADD_ITEM: // Intentional fallthrough.
     case CART_EDIT_ITEM:
       return {
         ...state,
@@ -85,11 +89,8 @@ export default function(state = defaultCart, action) {
   }
 }
 
-export const addToCartQuantity = (cartState, id) => {
-  return id in cartState.byProductId
-    ? cartState.byProductId[id].quantity + 1
-    : 1
-}
+export const getQuantityById = (cartState, id) =>
+  id in cartState.byProductId ? cartState.byProductId[id].quantity : 0
 
 export const getTotalItemsInCart = cartState =>
   cartState.allProductIds.reduce(
