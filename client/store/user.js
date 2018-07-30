@@ -53,7 +53,7 @@ export const updateUser = user => async dispatch => {
   console.log('USER in updateUser=', user)
   let res
   try {
-    res = await axios.put('/api/users/update', {...user})
+    res = await axios.put('/api/me', user)
     console.log('RES in updateUser', res)
     return dispatch(updatedUser(res.data))
   } catch (authError) {
