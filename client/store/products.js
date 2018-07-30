@@ -58,7 +58,7 @@ export const getProducts = () => dispatch => {
 
 export const postProduct = newProduct => dispatch => {
   axios
-    .post('/api/admin/addProduct', newProduct)
+    .post('/api/products', newProduct)
     .then(({data}) => {
       dispatch(addProduct(data))
       history.push(`/product/${data.id}`)
@@ -68,7 +68,7 @@ export const postProduct = newProduct => dispatch => {
 
 export const updateProductById = product => dispatch => {
   axios
-    .put(`/api/admin/${product.id}`, product)
+    .put(`/api/products/${product.id}`, product)
     .then(({data}) => dispatch(productUpdated(data)))
     .catch(err => console.error(err))
 }
