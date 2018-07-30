@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {AddToCartButton} from '../components'
+import {AddToCartButton, BigAddToCartButton} from '../components'
 
 const SingleProduct = props => {
   const {title, imageURL, description, inventory, price} = props.product
@@ -33,7 +33,10 @@ const SingleProduct = props => {
         <div className="col s12 m7 pull-m5 center-align">
           <h6 className="col s12 m3 flow-text">${price}</h6>
           <div className="col s12 m9">
-            <AddToCartButton productId={props.product.id} />
+            <AddToCartButton
+              productId={props.product.id}
+              buttonTypeComponent={BigAddToCartButton}
+            />
           </div>
         </div>
         <p className="col s12 m7 pull-m5">{description}</p>

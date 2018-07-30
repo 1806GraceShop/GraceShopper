@@ -7,10 +7,12 @@ export const ascending = (val1, val2) => val1 - val2
 // ACTION TYPES
 const GOT_CART = 'GOT_CART'
 const CART_ADD_ITEM = 'CART_ADD_ITEM'
+const CART_EDIT_ITEM = 'CART_EDIT_ITEM'
 
 // INITIAL STATE
 const defaultCart = {
   byProductId: {
+    0: {}
     // [lineItemId : int]: {
     //   productId: 0,
     //   quantity: 0,
@@ -23,6 +25,7 @@ const defaultCart = {
 // ACTION CREATORS
 
 const addedItem = item => ({type: CART_ADD_ITEM, item})
+const editedItem = item => ({type: CART_EDIT_ITEM, item})
 const gotCart = items => ({type: GOT_CART, items})
 
 // const removeUser = () => ({type: REMOVE_USER})
@@ -35,10 +38,24 @@ export const getCartItems = () => dispatch =>
     .then(({data}) => dispatch(gotCart(data || [])))
     .catch(err => console.log(err))
 
+// multiple operations
+// POST to create a new cart.
+// retuns the cart w/ cart Id.
+// POST api/carts/cartId/lineitems
 export const addItemToCart = lineItem => dispatch => {
   axios
     .post('/api/carts/', lineItem)
     .then(({data}) => dispatch(addedItem(data)))
+    .catch(err => console.error(err))
+}
+
+export const editItemInCart = lineItem => dispatch => {
+  axios
+    .put('/api/carts/', lineItem) // could be to /api/lineitems/:id
+    .then(({data}) => {
+      console.log('DATA', data)
+      dispatch(editedItem(data))
+    })
     .catch(err => console.error(err))
 }
 
@@ -54,7 +71,8 @@ export default function(state = defaultCart, action) {
         }, {}),
         allProductIds: action.items.map(item => item.productId).sort(ascending)
       }
-    case CART_ADD_ITEM:
+    case CART_ADD_ITEM: // Intentional fallthrough.
+    case CART_EDIT_ITEM:
       return {
         ...state,
         byProductId: {
@@ -71,6 +89,8 @@ export default function(state = defaultCart, action) {
   }
 }
 
+export const getQuantityById = (cartState, id) =>
+  id in cartState.byProductId ? cartState.byProductId[id].quantity : 0
 export const isProductInCart = (cartState, productId) => {
   Object.values(cartState.allIds).find(
     lineItem => lineItem.productId === productId
