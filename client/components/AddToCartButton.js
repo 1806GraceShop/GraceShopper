@@ -1,24 +1,15 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {addItemToCart, editItemInCart, getQuantityById} from '../store'
+import {addItemToCart, editItemInCart, addToCartQuantity} from '../store'
 
-class ModifyCartButton extends React.Component {
+class AddToCartButton extends React.Component {
   // Expects a prodId prop to be give to it from higher order component.
   // Also expects a dumb button that can take an 'add' prop to be given to it.
-  // expects a 'by' prop that should be a func that returns the next quantity.
-
   add = () => {
-    const {productId, quantity, inCart } = this.props
-    if () {
-      this.props.editItemInCart({
-        productId,
-        quantity: this.props.adjust(quantity)
-      })
-    } else
-      this.props.addItemToCart({
-        productId,
-        quantity: this.props.adjust(quantity)
-      })
+    const {productId, quantity} = this.props
+    if (this.props.isInCart) {
+      this.props.editItemInCart({productId, quantity})
+    } else this.props.addItemToCart({productId, quantity})
   }
 
   render() {
@@ -27,7 +18,8 @@ class ModifyCartButton extends React.Component {
   }
 }
 const mapStateToProps = (state, {productId}) => ({
-  quantity: getQuantityById(state.cart, productId),
+  quantity: addToCartQuantity(state.cart, productId),
+  isInCart: !!state.cart.byProductId[productId]
 })
 
 const mapDispatchToProps = dispatch => ({
