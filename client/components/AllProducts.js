@@ -40,16 +40,25 @@ class ErrorBoundary extends React.Component {
     // Normally, just render children
     return this.props.children;
   }  
-}
-
+}// ---------------------------------------------------------------------------
 
 
 class AllProducts extends React.Component {
   constructor(props) {
     super(props)
+    this.categoryClick = this.categoryClick.bind(this)
   }
 
+categoryClick(catId) {
+  console.log('CLICK HAPPENED:', catId)
+  this.setState({
+    catId
+})
+}
+
+
   // const productsByCategory = this.props.productsByCategory
+
 
   render() {
     return (
@@ -59,7 +68,8 @@ class AllProducts extends React.Component {
             <p>
               <ErrorBoundary>
               <p>Filtering Placeholder in AllProducts component</p>
-              <Categories />
+              {/* <Categories /> */}
+              <Categories handleClick={this.categoryClick} />
               </ErrorBoundary>
             </p>
           </div>

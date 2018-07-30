@@ -1,9 +1,13 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getAllCategories, getProdCats} from '../store'
+import {getAllCategories, getProdCats, getProductsByCategory} from '../store'
 
 
 class Categories extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
   render() {
     return (
       <div className="container">
@@ -12,7 +16,7 @@ class Categories extends React.Component {
 
         <div className="container">
           {this.props.categories.map(category => (
-            <div>{category.name} <br /></div>
+            <p key={category.id} onClick={() => this.props.handleClick(category.id)}>{category.name} </p>
           ))}
         </div>
 
@@ -32,7 +36,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   categories: getAllCategories(state),
-  // product
+  prodCats: getProductsByCategory(state)
 })
 
 // // ^^^^^^^^  call a different getavailableProductd(state.FILTEREDproductds)
