@@ -41,7 +41,6 @@ class AllReviews extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    console.log('ownprops', ownProps)
     const urlProductId = Number(ownProps.match.params.productId)
     return {
         review: getProductsReviews(state.reviews, urlProductId)

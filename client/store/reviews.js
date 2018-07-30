@@ -48,8 +48,6 @@ export const getReviews = () => dispatch => {
 }
 
 export const postReview = newReview => dispatch => {
-  console.log('this is new Review', newReview)
-
   axios
     .post('/api/reviews', newReview)
     .then(({ data }) => {
