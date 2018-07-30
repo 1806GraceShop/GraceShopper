@@ -86,7 +86,7 @@ const mapDispatch = dispatch => {
     loadInitialData() {
       dispatch(me())
       dispatch(getProducts())
-      // dispatch(getCartItems())
+      dispatch(getCartItems())
     }
   }
 }
