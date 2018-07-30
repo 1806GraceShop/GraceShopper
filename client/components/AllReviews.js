@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { getProductsReviews } from '../store'
 import {Link} from 'react-router-dom'
 
 class AllReviews extends React.Component {
@@ -24,7 +23,7 @@ class AllReviews extends React.Component {
                                             {review.rating}
                                         </span>
                                         <Link
-                                            to={`/review/${this.props.match.params.productId}/${review.id}/edit`}
+                                            to={`/review/${review.productId}/${review.id}/edit`}
                                             className="waves-effect right red waves-light btn"
                                         >
                                             Edit Review
@@ -41,11 +40,6 @@ class AllReviews extends React.Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    const urlProductId = Number(ownProps.match.params.productId)
-    return {
-        review: getProductsReviews(state.reviews, urlProductId)
-    }
-}
 
-export default connect(mapStateToProps, null)(AllReviews)
+
+export default connect(null, null)(AllReviews)

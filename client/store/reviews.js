@@ -53,7 +53,7 @@ export const postReview = newReview => dispatch => {
     .then(({ data }) => {
 
         dispatch(addReview(data))
-        history.push(`/review/${data.productId}/${data.id}#review_${data.id}`)
+        history.push(`/product/${data.productId}#review_${data.id}`)
       }
     )
     .catch(error => console.error(error))

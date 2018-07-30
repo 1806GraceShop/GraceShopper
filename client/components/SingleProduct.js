@@ -1,10 +1,11 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import {AddToCartButton} from '../components'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { AddToCartButton, AllReviews } from '../components'
+import { getProductsReviews } from '../store'
 
 const SingleProduct = props => {
-  const {title, imageURL, description, inventory, price} = props.product
+  const { title, imageURL, description, inventory, price } = props.product
   return (
     <div className="container">
       <br />
@@ -21,13 +22,6 @@ const SingleProduct = props => {
                 className="waves-effect red waves-light btn"
               >
                 Edit Product
-                <i className="material-icons right">edit</i>
-              </Link>
-              <Link
-                to={`review/${props.match.params.productId}/add`}
-                className="waves-effect red waves-light btn"
-              >
-                Add Review
                 <i className="material-icons right">edit</i>
               </Link>
             </div>
@@ -47,18 +41,25 @@ const SingleProduct = props => {
       </div>
       <br />
       <div className="col s12">
-        <h5>Reviews</h5>
-        <h6>First Review Title</h6>
-        <p>Reviews content here...</p>
+        <Link
+          to={`review/${props.match.params.productId}/add`}
+          className="waves-effect red waves-light btn"
+        >
+          Add Review
+                <i className="material-icons right">edit</i>
+        </Link>
+        <AllReviews review = {props.review}/>
       </div>
     </div>
   )
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const id = Number(ownProps.match.params.productId)
+  const productId = Number(ownProps.match.params.productId)
   return {
-    product: state.products.byId[id] || state.products.byId[0]
+    product: state.products.byId[productId] || state.products.byId[0],
+    review: getProductsReviews(state.reviews, productId)
+
   }
 }
 
