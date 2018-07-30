@@ -109,6 +109,3 @@ router
     //   .catch(next)
     res.sendStatus(405)
   })
-
-
-  .then(([affectedCount,updatedItems])=>{})
