@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {AddToCartButton, AdminToolEditProduct} from '../components'
+import {AddToCartButton, BigAddToCartButton, AdminToolEditProduct} from '../components'
 
 const SingleProduct = props => {
   const {isAdmin, match, product} = props
@@ -22,7 +22,10 @@ const SingleProduct = props => {
         <div className="col s12 m7 pull-m5 center-align">
           <h6 className="col s12 m3 flow-text">${price}</h6>
           <div className="col s12 m9">
-            <AddToCartButton productId={product.id} />
+            <AddToCartButton
+              productId={props.product.id}
+              buttonTypeComponent={BigAddToCartButton}
+            />
           </div>
         </div>
         <p className="col s12 m7 pull-m5">{description}</p>
