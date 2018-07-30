@@ -20,3 +20,8 @@ export {default as AllReviews} from './AllReviews'
 
 
 export {default as AddToCartButton} from './AddToCartButton'
+export {default as AdminToolEditProduct} from './AdminToolEditProduct'
+export {default as AdminToolAddProduct} from './AdminToolAddProduct'
+export {default as CartView} from './CartView'
+export {default as BigAddToCartButton} from './BigAddToCartButton'
+export {default as SmallAddToCartButton} from './SmallAddToCartButton'
