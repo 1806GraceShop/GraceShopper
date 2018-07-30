@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {isAdmin, isAuthenticated} = require('./authMiddleware')
+const {isAdmin} = require('./authMiddleware')
 
 module.exports = router
 
