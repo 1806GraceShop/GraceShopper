@@ -26,8 +26,7 @@ class AddToCartButton extends React.Component {
   }
 }
 const mapStateToProps = (state, ownProps) => ({
-  quantity: 0
-  // state.cart.byProductId[ownProps.productId].quantity || 0
+  quantity: state.cart.byProductId[ownProps.productId].quantity || 0
 })
 
 const mapDispatchToProps = dispatch => ({
