@@ -103,6 +103,10 @@ export default function(state = defaultProducts, action) {
   }
 }
 
+// SELECTORS
+
+// this is where I write another selector called getProductsByCategory
+
 export const getAvailableProducts = productsState => {
   return productsState.allIds.reduce((result, id) => {
     if (productsState.byId[id].inventory) result.push(productsState.byId[id])
