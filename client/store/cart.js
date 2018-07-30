@@ -87,10 +87,7 @@ export default function(state = defaultCart, action) {
 
 export const getQuantityById = (cartState, id) =>
   id in cartState.byProductId ? cartState.byProductId[id].quantity : 0
-export const isProductInCart = (cartState, productId) => {
-  Object.values(cartState.allIds).find(
-    lineItem => lineItem.productId === productId
-  )
+
 export const addToCartQuantity = (cartState, id) => {
   return id in cartState.byProductId
     ? cartState.byProductId[id].quantity + 1
