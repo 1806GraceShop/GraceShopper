@@ -12,6 +12,13 @@ export {default as SingleProduct} from './SingleProduct'
 export {default as ProductForm} from './ProductForm'
 export {default as AddProduct} from './AddProduct'
 export {default as EditProduct} from './EditProduct'
+export {default as AddReview} from './AddReview'
+export {default as EditReview} from './EditReview'
+export {default as ReviewForm} from './ReviewForm'
+export {default as AllReviews} from './AllReviews'
+
+
+
 export {default as AddToCartButton} from './AddToCartButton'
 export {default as AdminToolEditProduct} from './AdminToolEditProduct'
 export {default as AdminToolAddProduct} from './AdminToolAddProduct'

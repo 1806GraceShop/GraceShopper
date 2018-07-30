@@ -10,9 +10,13 @@ import {
   SingleProduct,
   AddProduct,
   EditProduct,
+  AddReview,
+  EditReview,
+  AllReviews,
   CartView
 } from './components'
-import {me, getProducts, getCartItems} from './store'
+import {me, getProducts, getReviews} from './store'
+
 
 const ProtectedRoute = ({component: Comp, condition, redirect, path}) => (
   <Route
@@ -25,7 +29,9 @@ const ProtectedRoute = ({component: Comp, condition, redirect, path}) => (
 
 class Routes extends Component {
   componentDidMount() {
+    this.props.getProducts()
     this.props.loadInitialData()
+    this.props.getReviews()
   }
 
   render() {
@@ -41,9 +47,26 @@ class Routes extends Component {
           path="/product/:productId([0-9]*)"
           component={SingleProduct}
         />
+        <Route
+          exact
+          path="/review/:productId/:reviewId([0-9]*)"
+          component={AllReviews}
+        />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         {/* LOGGED IN USER ACCESS */}
+            <ProtectedRoute 
+              path="/product/review/:productId/add"
+              component={AddReview}
+              condition={isLoggedIn}
+              redirect="/login"
+            />
+            <ProtectedRoute 
+              path="/review/:productId/:reviewId/edit" 
+              component={EditReview} 
+              condition={isLoggedIn}
+              redirect="/login"
+            />
         <ProtectedRoute
           path="/home"
           component={UserHome}
@@ -84,11 +107,12 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
+    getProducts: () => dispatch(getProducts()),
     loadInitialData() {
       dispatch(me())
-      dispatch(getProducts())
-      dispatch(getCartItems())
-    }
+    },
+    getReviews: () => dispatch(getReviews())
+
   }
 }
 
