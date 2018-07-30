@@ -13,8 +13,9 @@ import {
 } from './components'
 import {me, getProducts, getCartItems} from './store'
 
-const ProtectedRoute = ({component: Comp, condition, redirect}) => (
+const ProtectedRoute = ({component: Comp, condition, redirect, path}) => (
   <Route
+    path={path}
     render={props =>
       condition ? <Comp {...props} /> : <Redirect to={redirect} />
     }
@@ -85,7 +86,7 @@ const mapDispatch = dispatch => {
     loadInitialData() {
       dispatch(me())
       dispatch(getProducts())
-      dispatch(getCartItems())
+      // dispatch(getCartItems())
     }
   }
 }
