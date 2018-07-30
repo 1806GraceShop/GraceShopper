@@ -23,6 +23,13 @@ const SingleProduct = props => {
                 Edit Product
                 <i className="material-icons right">edit</i>
               </Link>
+              <Link
+                to={`review/${props.match.params.productId}/add`}
+                className="waves-effect red waves-light btn"
+              >
+                Add Review
+                <i className="material-icons right">edit</i>
+              </Link>
             </div>
           </div>
         </div>
