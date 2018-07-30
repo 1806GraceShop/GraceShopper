@@ -11,14 +11,13 @@ import {
   AddProduct,
   EditProduct
 } from './components'
-import {me, getProducts} from './store'
+import {me, getProducts, getCategories, getProdCats} from './store'
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
   componentDidMount() {
-    this.props.getProducts()
     this.props.loadInitialData()
   }
 
@@ -67,6 +66,9 @@ const mapDispatch = dispatch => {
     getProducts: () => dispatch(getProducts()),
     loadInitialData() {
       dispatch(me())
+      dispatch(getCategories())
+      dispatch(getProducts())
+      dispatch(getProdCats())
     }
   }
 }

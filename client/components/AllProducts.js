@@ -43,7 +43,14 @@ class ErrorBoundary extends React.Component {
 }
 
 
+
 class AllProducts extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
+  // const productsByCategory = this.props.productsByCategory
+
   render() {
     return (
       <div className="container">
@@ -77,8 +84,9 @@ const mapDispatchToProps = dispatch => ({
 
 //  ^^^^^^^^ shouldn't have to do anything here since weva already dispathced and reterieved all the datsa
 
-const mapStateToProps = (state, ownProps) => ({ //// own propos optional.... i have all of state avail;able to me.
-  products: getAvailableProducts(state.products)
+const mapStateToProps = (state, ownProps) => ({ //// own props optional.... i have all of state available to me.
+  products: getAvailableProducts(state.products),
+  // productsByCategory: getProductsByCategory(state, catId)
 })
 
 // ^^^^^^^^  call a different getAvailableProduct(state.FILTEREDproductds)

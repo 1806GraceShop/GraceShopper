@@ -104,11 +104,14 @@ export default function(state = defaultCategories, action) {
 //   const prodCats = state.productCategories   /// whatever I name when I create the combined reducer
 //   Object.values(prodCats.byId).filter(prodCat => prodCat.categoryId === categoryId).map(filteredProdCat => filteredProdCat.productId) // this gets me an array of only the objects... then filtered by only the categories we want (chain)
 // }
+export const getAllCategories = (state) => {
+  return Object.values(state.categories.byId).sort((a, b) => a - b)
+}
 
 export const getProductsByCategory = (state, catId) => {
   Object.values(state.productCategories.byId).reduce((result, prodCat) => {
     if (prodCat.categoryId === catId) {
       result.push(state.products.byId[prodCat.productId])
     }
-  })
+  }, [])
 }
