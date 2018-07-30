@@ -38,10 +38,10 @@ export const getCartItems = () => dispatch =>
     .then(({data}) => dispatch(gotCart(data || [])))
     .catch(err => console.log(err))
 
-    // multiple operations
-    // POST to create a new cart.
-    // retuns the cart w/ cart Id.
-    // POST api/carts/cartId/lineitems
+// multiple operations
+// POST to create a new cart.
+// retuns the cart w/ cart Id.
+// POST api/carts/cartId/lineitems
 export const addItemToCart = lineItem => dispatch => {
   axios
     .post('/api/carts/', lineItem)
@@ -91,6 +91,11 @@ export default function(state = defaultCart, action) {
 
 export const getQuantityById = (cartState, id) =>
   id in cartState.byProductId ? cartState.byProductId[id].quantity : 0
+export const isProductInCart = (cartState, productId) => {
+  Object.values(cartState.allIds).find(
+    lineItem => lineItem.productId === productId
+  )
+}
 
 export const getTotalItemsInCart = cartState =>
   cartState.allProductIds.reduce(
