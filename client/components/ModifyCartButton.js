@@ -8,7 +8,7 @@ import {
   getLineItemByProductId
 } from '../store'
 
-class AddToCartButton extends React.Component {
+class ModifyCartButton extends React.Component {
   // Expects a prodId prop to be give to it from higher order component.
   // Also expects a dumb button that can take an 'add' prop to be given to it.
   add = () => {
@@ -24,7 +24,12 @@ class AddToCartButton extends React.Component {
 
   render() {
     const WrappedButton = this.props.buttonTypeComponent
-    return <WrappedButton add={this.add} productQuantity={this.props.productQuantity}/>
+    return (
+      <WrappedButton
+        add={this.add}
+        productQuantity={this.props.productQuantity}
+      />
+    )
   }
 }
 const mapStateToProps = (state, {productId}) => ({
@@ -32,7 +37,6 @@ const mapStateToProps = (state, {productId}) => ({
   lineItem: getLineItemByProductId(state, productId),
   cartId: getCartId(state),
   productQuantity: state.products.byId[productId].inventory // TODO: Replace with selector.
-
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -40,4 +44,4 @@ const mapDispatchToProps = dispatch => ({
   editItemInCart: lineItem => dispatch(editItemInCart(lineItem))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddToCartButton)
+export default connect(mapStateToProps, mapDispatchToProps)(ModifyCartButton)
