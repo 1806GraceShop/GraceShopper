@@ -22,10 +22,10 @@ class AdminHome extends React.Component {
         <br />
         <div className="row">
           <div className="col s12">
-            <h5>Welcome, {user.firstName || email}!</h5>
+            <h5>Welcome, ADMINISTRATOR {user.firstName || email}!</h5>
           </div>
           <div className="col s12 m6">
-            <h5>My User Information</h5>
+            <h5>Alter Indiscriminate User</h5>
             <AdminUserForm {...this.props} onSubmit={this.submit} />
           </div>
           <div className="col s12 m6">

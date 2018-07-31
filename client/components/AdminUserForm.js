@@ -3,7 +3,6 @@ import {Field, reduxForm} from 'redux-form'
 import {connect} from 'react-redux'
 
 let AdminUserForm = props => {
-  console.log('initialValues', props.initialValues)
   const {handleSubmit, pristine, submitting} = props
   return (
     <div>
