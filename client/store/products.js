@@ -9,8 +9,6 @@ const ADD_PRODUCT = 'ADD_PRODUCT'
 
 const PRODUCT_UPDATED = 'PRODUCT_UPDATED'
 
-// const REMOVE_USER = 'REMOVE_USER'
-
 /**
  * INITIAL STATE
  */
@@ -44,11 +42,9 @@ const productUpdated = updatedProduct => ({
   type: PRODUCT_UPDATED,
   updatedProduct
 })
-// const removeUser = () => ({type: REMOVE_USER})
 
 // THUNK CREATORS
 
-// TODO: Think about whether we need to check auth in any of these.
 export const getProducts = () => dispatch => {
   console.log('Im in GETPRODUCTS thunk!')
   axios
