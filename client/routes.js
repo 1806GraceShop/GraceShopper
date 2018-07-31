@@ -10,7 +10,8 @@ import {
   SingleProduct,
   AddProduct,
   EditProduct,
-  CartView
+  CartView,
+  AdminHome
 } from './components'
 import {me, getProducts, getCartItems} from './store'
 
@@ -51,6 +52,12 @@ class Routes extends Component {
           redirect="/login"
         />
         {/* ADMIN ACCESS ONLY */}
+        <ProtectedRoute
+          path="/adminHome"
+          component={AdminHome}
+          condition={true}
+          redirect="/login"
+        />
         <ProtectedRoute
           path="/product/:productId/edit"
           component={EditProduct}
