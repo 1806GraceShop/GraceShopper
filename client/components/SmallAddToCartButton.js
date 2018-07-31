@@ -5,6 +5,7 @@ const SmallAddToCartButton = props => (
     type="button"
     onClick={props.add}
     className="waves-effect waves-teal btn-small"
+    disabled={!props.productQuantity}
   >
     <i className="material-icons" alt="add to cart">
       add
