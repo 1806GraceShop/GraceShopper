@@ -16,18 +16,6 @@
         "categoryId": 1
     },
     {
-        "productId": 5,
-        "categoryId": 1
-    },
-    {
-        "productId": 6,
-        "categoryId": 1
-    },
-    {
-        "productId": 7,
-        "categoryId": 1
-    },
-    {
         "productId": 8,
         "categoryId": 1
     },
@@ -52,7 +40,51 @@
         "categoryId": 4
     },
     {
+        "productId": 2,
+        "categoryId": 5
+    },
+    {
+        "productId": 2,
+        "categoryId": 6
+    },
+    {
         "productId": 3,
+        "categoryId": 6
+    },
+    {
+        "productId": 4,
+        "categoryId": 5
+    },
+    {
+        "productId": 5,
+        "categoryId": 6
+    },
+    {
+        "productId": 9,
+        "categoryId": 5
+    },
+    {
+        "productId": 9,
         "categoryId": 2
+    },
+    {
+        "productId": 9,
+        "categoryId": 3
+    },
+    {
+        "productId": 8,
+        "categoryId": 3
+    },
+    {
+        "productId": 1,
+        "categoryId": 6
+    },
+    {
+        "productId": 7,
+        "categoryId": 6
+    },
+    {
+        "productId": 8,
+        "categoryId": 4
     }
   ]
