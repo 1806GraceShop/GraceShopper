@@ -9,7 +9,8 @@ const {
   Order,
   OrderLineItem,
   Review,
-  Cart
+  Cart,
+  CartLineItem
 } = require('../server/db/models')
 
 const productData = require('./ProductData.json')
@@ -17,8 +18,8 @@ const categoriesData = require('./CategoriesData.json')
 const reviewsData = require('./ReviewsData.json')
 
 const cartData = require('./CartData.json')
+const cartItems = require('./CartLineItemsData.json')
 const productCategoriesData = require('./ProductCategoriesData.json')
-
 
 async function seed() {
   await db.sync({force: true})
@@ -29,6 +30,7 @@ async function seed() {
     User.create({
       firstName: 'cody',
       lastName: 'codylastname',
+      admin: true,
       address: '123 main st, city, ST, ZIP',
       email: 'cody@email.com',
       password: '123'
@@ -49,17 +51,20 @@ async function seed() {
   const categories = await Promise.all(
     categoriesData.map(category => Category.create(category))
   )
-  
-  const productCategories = await Promise.all(
-    productCategoriesData.map(productCategory => ProductCategory.create(productCategory))
 
+  const productCategories = await Promise.all(
+    productCategoriesData.map(productCategory =>
+      ProductCategory.create(productCategory)
+    )
   )
 
   const reviews = await Promise.all(
     reviewsData.map(review => Review.create(review))
   )
   const carts = await Promise.all(cartData.map(cart => Cart.create(cart)))
-
+  const items = await Promise.all(
+    cartItems.map(item => CartLineItem.create(item))
+  )
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
 
@@ -67,7 +72,8 @@ async function seed() {
   console.log(`seeded ${categories.length} categories`)
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${reviews.length} reviews`)
-  console.log(`seeded ${cartData.length} carts successfully`)
+  console.log(`seeded ${carts.length} carts successfully`)
+  console.log(`seeded ${items.length} items in carts successfully`)
   console.log(`seeded ${productCategories.length} productCategory associations`)
   console.log(`seeded successfully`)
 }
