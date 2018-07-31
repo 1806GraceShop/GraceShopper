@@ -7,6 +7,7 @@ router.use('/products', require('./products'))
 router.use('/reviews', require('./reviews'))
 router.use('/categories', require('./categories'))
 router.use('/productcategories', require('./productCategories'))
+router.use('/orders', require('./orders'))
 
 router.use('/carts/', require('./carts'))
 // router.use('/admin', isAdmin, require('./admin'))
