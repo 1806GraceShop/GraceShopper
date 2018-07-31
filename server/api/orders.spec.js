@@ -4,7 +4,7 @@ const { expect } = require('chai')
 const request = require('supertest')
 const db = require('../db')
 const app = require('../index')
-const Order = db.model('orderLineItem')
+const Order = db.model('order')
 
 describe('Order routes', () => {
     beforeEach(() => {
@@ -14,8 +14,9 @@ describe('Order routes', () => {
     describe('/api/orders/', () => {
         beforeEach(() => {
             return Order.create({
-                quantity: 1,
-                orderedPrice: "20.50",
+                status: 'created',
+                buyerName: "Jacoby Kang",
+                buyerAddress: "2301 Vanderbilt Place"
             })
 
         })
@@ -26,8 +27,10 @@ describe('Order routes', () => {
                 .expect(200)
 
             expect(res.body).to.be.an('array')
-            expect(res.body[0].quantity).to.be.equal(1)
-            expect(res.body[0].orderedPrice).to.be.equal("20.50")
+            expect(res.body[0].status).to.be.equal('created')
+            expect(res.body[0].buyerName).to.be.equal("Jacoby Kang")
+            expect(res.body[0].buyerAddress).to.be.equal("2301 Vanderbilt Place")
+
         })
     }) // end describe('/api/users')
 
