@@ -7,14 +7,25 @@ module.exports = router
 router
   .route('/')
   .post((req, res, next) => {
+    console.log('REQ BODY', req.body)
     const newCart = req.user
-      ? {sessionId: req.sessionID, userId: req.user.dataValues.id}
+      ? {sessionId: req.sessionID, userId: req.user.id}
       : {sessionId: req.sessionID}
+    let cart
     Cart.create(newCart)
-      .then(cart => {
+      .then(createdCart => {
+        cart = createdCart
+
         req.session.cartId = cart.id
-        res.json(cart)
+        if (Object.keys(req.body).length) {
+          return CartLineItem.create({
+            cartId: cart.id,
+            quantity: +req.body.quantity,
+            productId: +req.body.productId
+          })
+        } else res.json({cart, lineItem: false})
       })
+      .then(lineItem => lineItem && res.json({cart, lineItem}))
       .catch(next)
   })
   .all(isAdmin)
