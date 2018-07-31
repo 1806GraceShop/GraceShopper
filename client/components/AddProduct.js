@@ -14,9 +14,9 @@ class AddProducts extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    postProduct: (newProduct) => dispatch(postProduct(newProduct))
+    postProduct: newProduct => dispatch(postProduct(newProduct))
   }
 }
 

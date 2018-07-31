@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {withRouter, Route, Switch} from 'react-router-dom'
+import {withRouter, Redirect, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {
   Login,
@@ -10,43 +10,81 @@ import {
   SingleProduct,
   AddProduct,
   EditProduct,
+  AddReview,
+  EditReview,
+  AllReviews,
+  CartView,
   ProductsByCategory
 } from './components'
-import {me, getProducts, getCategories, getProdCats} from './store'
+import {me, getProducts, getCategories, getProdCats, getReviews} from './store'
 
-/**
- * COMPONENT
- */
+const ProtectedRoute = ({component: Comp, condition, redirect, path}) => (
+  <Route
+    path={path}
+    render={props =>
+      condition ? <Comp {...props} /> : <Redirect to={redirect} />
+    }
+  />
+)
+
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
   }
 
   render() {
-    const {isLoggedIn} = {isLoggedIn: true} // this.props FLAG FLAG FLAG
-
+    const {isLoggedIn, isAdmin} = this.props
     return (
       <Switch>
-        {/* Routes placed here are available to all visitors */}
+        {' '}
+        {/* ALL VISITORS ACCESS */}
         <Route exact path="/" component={AllProducts} />
         <Route exact path="/category/:catId" component={ProductsByCategory} />
+        <Route exact path="/cart" component={CartView} />
         <Route
           exact
           path="/product/:productId([0-9]*)"
           component={SingleProduct}
         />
+        <Route
+          exact
+          path="/review/:productId/:reviewId([0-9]*)"
+          component={AllReviews}
+        />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        {isLoggedIn && (
-          <Switch>
-            <Route exact path="/product/add" component={AddProduct} />
-            <Route path="/product/:productId/edit" component={EditProduct} />
-            {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={UserHome} />
-          </Switch>
-        )}
-        {/* Displays our Login component as a fallback */}
-        <Route component={Login} />
+        {/* LOGGED IN USER ACCESS */}
+        <ProtectedRoute
+          path="/product/review/:productId/add"
+          component={AddReview}
+          condition={isLoggedIn}
+          redirect="/login"
+        />
+        <ProtectedRoute
+          path="/review/:productId/:reviewId/edit"
+          component={EditReview}
+          condition={isLoggedIn}
+          redirect="/login"
+        />
+        <ProtectedRoute
+          path="/home"
+          component={UserHome}
+          condition={isLoggedIn}
+          redirect="/login"
+        />
+        {/* ADMIN ACCESS ONLY */}
+        <ProtectedRoute
+          path="/product/:productId/edit"
+          component={EditProduct}
+          condition={isAdmin}
+          redirect="/login"
+        />
+        <ProtectedRoute
+          path="/product/add"
+          component={AddProduct}
+          condition={isAdmin}
+          redirect="/login"
+        />
       </Switch>
     )
   }
@@ -56,21 +94,24 @@ class Routes extends Component {
  * CONTAINER
  */
 const mapState = state => {
+  console.log('STATE.USER =', state.user)
+
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    isAdmin: !!state.user.admin
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    getProducts: () => dispatch(getProducts()),
     loadInitialData() {
       dispatch(me())
       dispatch(getCategories())
       dispatch(getProducts())
       dispatch(getProdCats())
+      dispatch(getReviews())
     }
   }
 }

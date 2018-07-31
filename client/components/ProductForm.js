@@ -29,7 +29,7 @@ let ProductForm = props => {
             name="imageURL"
             component="input"
             type="url"
-            className="validate"
+            className="validate" 
           />
           <label htmlFor="imageURL">Product Image Url</label>
           <span

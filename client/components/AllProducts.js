@@ -1,38 +1,38 @@
 import React from 'react'
-import {ProductCard, Categories} from '../components'
+import {ProductCard, Categories, AdminToolAddProduct} from '../components'
 import {connect} from 'react-redux'
-import {getAvailableProducts, getProducts, getProductsByCategory} from '../store'
+import {getAvailableProducts, getProductsByCategory} from '../store'
 
 const ProductsList = props => {
-    console.log('this.props.products', props.products)
-    return (
-      <div className="container">
-        <div className="row">
-          <div className="col s12 m4 l3">
-            <div>
-              <Categories />
-            </div>
-          </div>
-          <div className="col s12 m8 l9">
-            {props.products.map(product => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+  const {isAdmin} = props
+  return (
+    <div className="container">
+      <div className="row">
+        <div className="col s12 m4 l3">
+          <div>
+            <Categories />
           </div>
         </div>
+        <div className="col s12 m8 l9">
+          <AdminToolAddProduct isAdmin={isAdmin} />
+          {props.products.map(product => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
       </div>
-    )
+    </div>
+  )
 }
 
-const mapProducts = (state) => ({ 
-  products: getAvailableProducts(state.products) || []
+const mapProducts = state => ({
+  products: getAvailableProducts(state.products) || [],
+  isAdmin: !!state.user.admin
 })
 
-const mapCategories = (state, ownProps) => {
-  const catId = Number(ownProps.match.params.catId)
-  return {
-    products: getProductsByCategory(state, catId)
-  }
-}
+const mapCategories = (state, ownProps) => ({
+  products: getProductsByCategory(state, +ownProps.match.params.catId),
+  isAdmin: !!state.user.admin
+})
 
 export const AllProducts = connect(mapProducts)(ProductsList)
 export const ProductsByCategory = connect(mapCategories)(ProductsList)

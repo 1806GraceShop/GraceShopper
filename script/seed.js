@@ -14,6 +14,8 @@ const {
 
 const productData = require('./ProductData.json')
 const categoriesData = require('./CategoriesData.json')
+const reviewsData = require('./ReviewsData.json')
+
 const cartData = require('./CartData.json')
 const productCategoriesData = require('./ProductCategoriesData.json')
 
@@ -53,6 +55,9 @@ async function seed() {
 
   )
 
+  const reviews = await Promise.all(
+    reviewsData.map(review => Review.create(review))
+  )
   const carts = await Promise.all(cartData.map(cart => Cart.create(cart)))
 
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
@@ -61,6 +66,7 @@ async function seed() {
   console.log(`seeded ${products.length} products`)
   console.log(`seeded ${categories.length} categories`)
   console.log(`seeded ${users.length} users`)
+  console.log(`seeded ${reviews.length} reviews`)
   console.log(`seeded ${cartData.length} carts successfully`)
   console.log(`seeded ${productCategories.length} productCategory associations`)
   console.log(`seeded successfully`)

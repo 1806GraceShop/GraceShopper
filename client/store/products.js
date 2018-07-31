@@ -46,7 +46,6 @@ const productUpdated = updatedProduct => ({
 // THUNK CREATORS
 
 export const getProducts = () => dispatch => {
-  console.log('Im in GETPRODUCTS thunk!')
   axios
     .get(`/api/products`)
     .then(({data}) => dispatch(gotProducts(data)))
@@ -111,10 +110,13 @@ export const getAvailableProducts = productsState => {
 
 export const getProductsByCategory = (state, catId) => {
   console.log('state.productCategories', state.productCategories)
-  return Object.values(state.productCategories.byId).reduce((result, prodCat) => {
-    if (prodCat.categoryId === catId) {
-      result.push(state.products.byId[prodCat.productId])
-    }
-    return result;
-  }, [])
+  return Object.values(state.productCategories.byId).reduce(
+    (result, prodCat) => {
+      if (prodCat.categoryId === catId) {
+        result.push(state.products.byId[prodCat.productId])
+      }
+      return result
+    },
+    []
+  )
 }
