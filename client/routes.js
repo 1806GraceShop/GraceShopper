@@ -14,7 +14,8 @@ import {
   EditReview,
   AllReviews,
   CartView,
-  ProductsByCategory
+  ProductsByCategory,
+  ProductsBySearch
 } from './components'
 import {
   me,
@@ -47,6 +48,9 @@ class Routes extends Component {
         {/* ALL VISITORS ACCESS */}
         <Route exact path="/" component={AllProducts} />
         <Route exact path="/category/:catId" component={ProductsByCategory} />
+        <Route exact path="/search/:productName" component={ProductsBySearch} />
+        <Route exact path="/search" component={AllProducts} />
+
         <Route exact path="/cart" component={CartView} />
         <Route
           exact

@@ -1,7 +1,7 @@
 import React from 'react'
 import {ProductCard, Categories, AdminToolAddProduct} from '../components'
 import {connect} from 'react-redux'
-import {getAvailableProducts, getProductsByCategory} from '../store'
+import {getAvailableProducts, getProductsByCategory, getProductsBySearch} from '../store'
 
 const ProductsList = props => {
   const {isAdmin} = props
@@ -31,8 +31,15 @@ const mapProducts = state => ({
 
 const mapCategories = (state, ownProps) => ({
   products: getProductsByCategory(state, +ownProps.match.params.catId),
+  isAdmin: !!state.user.admin,
+})
+
+const mapSearch = (state, ownProps) => ({
+  products: getProductsBySearch(state.products, ownProps.match.params.productName),
   isAdmin: !!state.user.admin
 })
 
 export const AllProducts = connect(mapProducts)(ProductsList)
 export const ProductsByCategory = connect(mapCategories)(ProductsList)
+export const ProductsBySearch = connect(mapSearch)(ProductsList)
+

@@ -119,3 +119,12 @@ export const getProductsByCategory = (state, catId) => {
     []
   )
 }
+
+export const getProductsBySearch = (productsState, productName) => {
+  return productsState.allIds.reduce((result, id) => {
+    if (productsState.byId[id].title.toLowerCase().indexOf(productName) >= 0 || productsState.byId[id].description.indexOf(productName) >= 0) 
+
+    result.push(productsState.byId[id])
+    return result
+  }, [])
+}
