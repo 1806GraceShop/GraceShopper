@@ -50,6 +50,7 @@ const productUpdated = updatedProduct => ({
 
 // TODO: Think about whether we need to check auth in any of these.
 export const getProducts = () => dispatch => {
+  console.log('Im in GETPRODUCTS thunk!')
   axios
     .get(`/api/products`)
     .then(({data}) => dispatch(gotProducts(data)))
@@ -105,11 +106,19 @@ export default function(state = defaultProducts, action) {
 
 // SELECTORS
 
-// this is where I write another selector called getProductsByCategory
-
 export const getAvailableProducts = productsState => {
   return productsState.allIds.reduce((result, id) => {
     if (productsState.byId[id].inventory) result.push(productsState.byId[id])
     return result
+  }, [])
+}
+
+export const getProductsByCategory = (state, catId) => {
+  console.log('state.productCategories', state.productCategories)
+  return Object.values(state.productCategories.byId).reduce((result, prodCat) => {
+    if (prodCat.categoryId === catId) {
+      result.push(state.products.byId[prodCat.productId])
+    }
+    return result;
   }, [])
 }

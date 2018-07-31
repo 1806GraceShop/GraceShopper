@@ -1,6 +1,7 @@
 import axios from 'axios'
 import history from '../history'
 import productCategories from './productCategories'
+import { AllProducts } from '../components';
 
 // ACTION TYPES
 
@@ -108,10 +109,14 @@ export const getAllCategories = (state) => {
   return Object.values(state.categories.byId).sort((a, b) => a - b)
 }
 
-export const getProductsByCategory = (state, catId) => {
-  Object.values(state.productCategories.byId).reduce((result, prodCat) => {
-    if (prodCat.categoryId === catId) {
-      result.push(state.products.byId[prodCat.productId])
-    }
-  }, [])
-}
+/// ur filter on this. Once this works then I need another function to pull the produxctde
+
+// two components receiving PushSubscriptionOptions.bind.bind. 1 is AllProducts, the other is a filtered propducts component that receives this filrewrd... both trendering same product list
+
+// export const getProductsByCategory = (state, catId) => {
+//   Object.values(state.productCategories.byId).reduce((result, prodCat) => {
+//     if (prodCat.categoryId === catId) {
+//       result.push(state.products.byId[prodCat.productId])
+//     }
+//   }, [])
+// }

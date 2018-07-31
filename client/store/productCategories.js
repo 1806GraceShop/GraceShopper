@@ -25,10 +25,13 @@ const defaultProdCats = {
 
 // ACTION CREATORS
 
-const gotProdCats = ProdCats => ({
+const gotProdCats = prodCats => {
+  console.log('ProdCats in Action creator', prodCats)
+  return {
   type: GET_PRODCATS,
-  ProdCats
-})
+  prodCats
+}
+}
 
 // const addProdCat = ProdCat => ({
 //   type: ADD_PRODCAT,
@@ -43,9 +46,13 @@ const gotProdCats = ProdCats => ({
 // THUNK CREATORS
 
 export const getProdCats = () => dispatch => {
+  console.log('Im in PRODCATS!')
   axios
-    .get(`/api/prodcats`)
-    .then(({data}) => dispatch(gotProdCats(data)))
+    .get('/api/prodcats')
+    .then(({data}) => {
+      console.log('data inside thunk', data)
+      dispatch(gotProdCats(data))
+    })
     .catch(error => console.error(error))
 }
 
@@ -69,6 +76,7 @@ export const getProdCats = () => dispatch => {
 // REDUCER
 
 export default function(state = defaultProdCats, action) {
+  console.log('action.prodCats in reducer', action.prodCats)
   switch (action.type) {
     case GET_PRODCATS:
       return {

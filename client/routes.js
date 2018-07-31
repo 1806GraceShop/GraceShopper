@@ -9,7 +9,8 @@ import {
   AllProducts,
   SingleProduct,
   AddProduct,
-  EditProduct
+  EditProduct,
+  ProductsByCategory
 } from './components'
 import {me, getProducts, getCategories, getProdCats} from './store'
 
@@ -28,6 +29,7 @@ class Routes extends Component {
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route exact path="/" component={AllProducts} />
+        <Route exact path="/category/:catId" component={ProductsByCategory} />
         <Route
           exact
           path="/product/:productId([0-9]*)"
