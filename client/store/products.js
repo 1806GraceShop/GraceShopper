@@ -122,7 +122,7 @@ export const getProductsByCategory = (state, catId) => {
 
 export const getProductsBySearch = (productsState, productName) => {
   return productsState.allIds.reduce((result, id) => {
-    if (productsState.byId[id].title.toLowerCase().indexOf(productName.toLowerCase()) >= 0 || productsState.byId[id].description.indexOf(productName) >= 0) 
+    if (productsState.byId[id].title.toLowerCase().indexOf(productName.toLowerCase()) >= 0 || productsState.byId[id].description.indexOf(productName.toLowerCase()) >= 0) 
 
     result.push(productsState.byId[id])
     return result
