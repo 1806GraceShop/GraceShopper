@@ -30,7 +30,7 @@ class AddToCartButton extends React.Component {
 const mapStateToProps = (state, {productId}) => ({
   quantity: quantityByProductId(state, productId),
   lineItem: getLineItemByProductId(state, productId),
-  cartId: getCartId(state)
+  cartId: getCartId(state),
   productQuantity: state.products.byId[productId].inventory // TODO: Replace with selector.
 
 })
