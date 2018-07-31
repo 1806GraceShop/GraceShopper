@@ -53,7 +53,13 @@ class Routes extends Component {
         />
         {/* ADMIN ACCESS ONLY */}
         <ProtectedRoute
-          path="/adminHome"
+          path="/admin/user/:userId"
+          component={AdminHome}
+          condition={true}
+          redirect="/login"
+        />
+        <ProtectedRoute
+          path="/admin"
           component={AdminHome}
           condition={true}
           redirect="/login"

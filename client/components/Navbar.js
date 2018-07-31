@@ -73,6 +73,7 @@ const Navbar = props => (
 const mapState = state => {
   return {
     isLoggedIn: !!state.user.id,
+    isAdmin: !!state.user.admin,
     cartSize: getTotalItemsInCart(state.cart)
   }
 }

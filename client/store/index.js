@@ -4,10 +4,17 @@ import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import products from './products'
+import allUsers from './allUsers'
 import cart from './cart'
 import {reducer as formReducer} from 'redux-form'
 
-const reducer = combineReducers({user, products, cart, form: formReducer})
+const reducer = combineReducers({
+  user,
+  allUsers,
+  products,
+  cart,
+  form: formReducer
+})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
@@ -17,3 +24,4 @@ export default store
 export * from './user'
 export * from './products'
 export * from './cart'
+export * from './allUsers'

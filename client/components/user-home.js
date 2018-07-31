@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import UserForm from './UserForm'
-import {updateUser} from '../store/user'
+import {updateUser} from '../store'
 
 /**
  * COMPONENT

@@ -1,16 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import UserForm from './UserForm'
+import AdminUserForm from './AdminUserForm'
 import {updateUser} from '../store/user'
+import {getAllUsers, getActiveUsers} from '../store'
+import {Link} from 'react-router-dom'
 
 class AdminHome extends React.Component {
+  componentDidMount() {
+    this.props.getAllUsers()
+  }
+
   submit = user => {
     this.props.updateUser(user)
   }
 
   render() {
-    const {user, email} = this.props
+    const {user, email, allUsers} = this.props
     return (
       <div className="container">
         <br />
@@ -20,12 +26,16 @@ class AdminHome extends React.Component {
           </div>
           <div className="col s12 m6">
             <h5>My User Information</h5>
-            <UserForm {...this.props} onSubmit={this.submit} />
+            <AdminUserForm {...this.props} onSubmit={this.submit} />
           </div>
           <div className="col s12 m6">
             <h5>Users</h5>
             <div className="userScroll">
-             
+              {allUsers.map(usr => (
+                <Link to={`/admin/user/${usr.id}`} key={usr.id}>
+                  <p>{usr.email}</p>
+                </Link>
+              ))}
             </div>
           </div>
         </div>
@@ -37,16 +47,19 @@ class AdminHome extends React.Component {
 /**
  * CONTAINER
  */
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
+  console.log('params', ownProps.match.params.userId)
   return {
     user: state.user,
-    email: state.user.email
+    email: state.user.email,
+    allUsers: getActiveUsers(state)
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateUser: user => dispatch(updateUser(user))
+    updateUser: user => dispatch(updateUser(user)),
+    getAllUsers: () => dispatch(getAllUsers())
   }
 }
 

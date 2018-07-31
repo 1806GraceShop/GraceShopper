@@ -2,14 +2,15 @@ import React from 'react'
 import {Field, reduxForm} from 'redux-form'
 import {connect} from 'react-redux'
 
-let UserForm = props => {
+let AdminUserForm = props => {
+  console.log('initialValues', props.initialValues)
   const {handleSubmit, pristine, submitting} = props
   return (
     <div>
       <form className="row" onSubmit={handleSubmit}>
         <div className="col s12 m6 input-field">
           <Field name="firstName" component="input" type="text" />
-          <label htmlFor="title">First Name</label>
+          <label htmlFor="title">First Name!</label>
         </div>
         <div className="col s12 m6 input-field">
           <Field name="lastName" component="input" type="text" />
@@ -17,7 +18,7 @@ let UserForm = props => {
         </div>
         <div className="col s12 input-field">
           <Field name="address" component="input" type="text" />
-          <label htmlFor="title">Address?</label>
+          <label htmlFor="title">Address</label>
         </div>
         <div className="col s12 input-field">
           <Field name="email" disabled={true} component="input" type="text" />
@@ -34,7 +35,6 @@ let UserForm = props => {
       </form>
       <script>
         {setTimeout(() => {
-          // M.AutoInit()
           M.updateTextFields()
         }, 1)}
       </script>
@@ -42,13 +42,15 @@ let UserForm = props => {
   )
 }
 
-const mapDispatchToProps = dispatch => ({})
+const mapStateToProps = (state, {match}) => {
+  return {
+    initialValues: state.allUsers.byId[match.params.userId]
+  }
+}
 
-const mapStateToProps = state => ({
-  initialValues: state.user
-})
+AdminUserForm = reduxForm({form: 'adminUserForm', enableReinitialize: true})(
+  AdminUserForm
+)
+AdminUserForm = connect(mapStateToProps)(AdminUserForm)
 
-UserForm = reduxForm({form: 'userForm'})(UserForm)
-UserForm = connect(mapStateToProps, mapDispatchToProps)(UserForm)
-
-export default UserForm
+export default AdminUserForm
