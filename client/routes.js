@@ -16,7 +16,14 @@ import {
   CartView,
   ProductsByCategory
 } from './components'
-import {me, getProducts, getCategories, getProdCats, getReviews} from './store'
+import {
+  me,
+  getProducts,
+  getCategories,
+  getProdCats,
+  getReviews,
+  getCartItems
+} from './store'
 
 const ProtectedRoute = ({component: Comp, condition, redirect, path}) => (
   <Route
@@ -94,8 +101,6 @@ class Routes extends Component {
  * CONTAINER
  */
 const mapState = state => {
-  console.log('STATE.USER =', state.user)
-
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
@@ -112,6 +117,7 @@ const mapDispatch = dispatch => {
       dispatch(getProducts())
       dispatch(getProdCats())
       dispatch(getReviews())
+      dispatch(getCartItems())
     }
   }
 }

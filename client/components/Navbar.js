@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {getTotalItemsInCart, logout} from '../store'
+import {getTotalItemsInCart, logout, emptyCart} from '../store'
 
 const CartBadge = props => (
   <li>
@@ -73,7 +73,7 @@ const Navbar = props => (
 const mapState = state => {
   return {
     isLoggedIn: !!state.user.id,
-    cartSize: getTotalItemsInCart(state.cart)
+    cartSize: getTotalItemsInCart(state)
   }
 }
 
@@ -81,6 +81,7 @@ const mapDispatch = dispatch => {
   return {
     handleClick() {
       dispatch(logout())
+      dispatch(emptyCart())
     }
   }
 }

@@ -109,7 +109,6 @@ export const getAvailableProducts = productsState => {
 }
 
 export const getProductsByCategory = (state, catId) => {
-  console.log('state.productCategories', state.productCategories)
   return Object.values(state.productCategories.byId).reduce(
     (result, prodCat) => {
       if (prodCat.categoryId === catId) {

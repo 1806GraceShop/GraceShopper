@@ -19,7 +19,17 @@ router.route('/cart').get((req, res, next) => {
           created ? res.status(201).json(cart) : res.json(cart)
       )
       .catch(next)
-  else
+  else if (req.session.cartId) {
+    Cart.findOrCreate({
+      where: {id: +req.session.cartId},
+      include: [CartLineItem]
+    })
+      .spread(
+        (cart, created) =>
+          created ? res.status(201).json(cart) : res.json(cart)
+      )
+      .catch(next)
+  } else
     // Anonymous users don't get carts yet.
     res.sendStatus(404)
 })

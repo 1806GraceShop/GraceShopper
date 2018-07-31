@@ -26,7 +26,6 @@ const updatedUser = user => ({type: UPDATE_USER, user})
 export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
-    console.log('RES.DATA= ', res.data)
     dispatch(getUser(res.data || defaultUser))
   } catch (err) {
     console.error(err)
@@ -50,11 +49,9 @@ export const auth = (email, password, method) => async dispatch => {
 }
 
 export const updateUser = user => async dispatch => {
-  console.log('USER in updateUser=', user)
   let res
   try {
     res = await axios.put('/api/me', user)
-    console.log('RES in updateUser', res)
     return dispatch(updatedUser(res.data))
   } catch (authError) {
     return dispatch(updatedUser({error: authError}))
@@ -75,7 +72,6 @@ export const logout = () => async dispatch => {
  * REDUCER
  */
 export default function(state = defaultUser, action) {
-  console.log('ACTION', action)
   switch (action.type) {
     case GET_USER:
       return action.user
