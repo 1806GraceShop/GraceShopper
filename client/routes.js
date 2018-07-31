@@ -13,10 +13,10 @@ import {
   AddReview,
   EditReview,
   AllReviews,
-  CartView
+  CartView,
+  ProductsByCategory
 } from './components'
-import {me, getProducts, getReviews} from './store'
-
+import {me, getProducts, getCategories, getProdCats, getReviews} from './store'
 
 const ProtectedRoute = ({component: Comp, condition, redirect, path}) => (
   <Route
@@ -29,9 +29,7 @@ const ProtectedRoute = ({component: Comp, condition, redirect, path}) => (
 
 class Routes extends Component {
   componentDidMount() {
-    this.props.getProducts()
     this.props.loadInitialData()
-    this.props.getReviews()
   }
 
   render() {
@@ -41,6 +39,7 @@ class Routes extends Component {
         {' '}
         {/* ALL VISITORS ACCESS */}
         <Route exact path="/" component={AllProducts} />
+        <Route exact path="/category/:catId" component={ProductsByCategory} />
         <Route exact path="/cart" component={CartView} />
         <Route
           exact
@@ -55,18 +54,18 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         {/* LOGGED IN USER ACCESS */}
-            <ProtectedRoute 
-              path="/product/review/:productId/add"
-              component={AddReview}
-              condition={isLoggedIn}
-              redirect="/login"
-            />
-            <ProtectedRoute 
-              path="/review/:productId/:reviewId/edit" 
-              component={EditReview} 
-              condition={isLoggedIn}
-              redirect="/login"
-            />
+        <ProtectedRoute
+          path="/product/review/:productId/add"
+          component={AddReview}
+          condition={isLoggedIn}
+          redirect="/login"
+        />
+        <ProtectedRoute
+          path="/review/:productId/:reviewId/edit"
+          component={EditReview}
+          condition={isLoggedIn}
+          redirect="/login"
+        />
         <ProtectedRoute
           path="/home"
           component={UserHome}
@@ -107,12 +106,13 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    getProducts: () => dispatch(getProducts()),
     loadInitialData() {
       dispatch(me())
-    },
-    getReviews: () => dispatch(getReviews())
-
+      dispatch(getCategories())
+      dispatch(getProducts())
+      dispatch(getProdCats())
+      dispatch(getReviews())
+    }
   }
 }
 

@@ -6,7 +6,7 @@
 export {default as Navbar} from './Navbar'
 export {default as UserHome} from './user-home'
 export {Login, Signup} from './auth-form'
-export {default as AllProducts} from './AllProducts'
+export {AllProducts, ProductsByCategory} from './AllProducts'
 export {default as ProductCard} from './ProductCard'
 export {default as SingleProduct} from './SingleProduct'
 export {default as ProductForm} from './ProductForm'
@@ -16,10 +16,8 @@ export {default as AddReview} from './AddReview'
 export {default as EditReview} from './EditReview'
 export {default as ReviewForm} from './ReviewForm'
 export {default as AllReviews} from './AllReviews'
-
-
-
 export {default as AddToCartButton} from './AddToCartButton'
+export {default as Categories} from './categories'
 export {default as AdminToolEditProduct} from './AdminToolEditProduct'
 export {default as AdminToolAddProduct} from './AdminToolAddProduct'
 export {default as CartView} from './CartView'

@@ -9,8 +9,6 @@ const ADD_PRODUCT = 'ADD_PRODUCT'
 
 const PRODUCT_UPDATED = 'PRODUCT_UPDATED'
 
-// const REMOVE_USER = 'REMOVE_USER'
-
 /**
  * INITIAL STATE
  */
@@ -44,11 +42,9 @@ const productUpdated = updatedProduct => ({
   type: PRODUCT_UPDATED,
   updatedProduct
 })
-// const removeUser = () => ({type: REMOVE_USER})
 
 // THUNK CREATORS
 
-// TODO: Think about whether we need to check auth in any of these.
 export const getProducts = () => dispatch => {
   axios
     .get(`/api/products`)
@@ -103,11 +99,24 @@ export default function(state = defaultProducts, action) {
   }
 }
 
-// SELECTOR
+// SELECTORS
 
 export const getAvailableProducts = productsState => {
   return productsState.allIds.reduce((result, id) => {
     if (productsState.byId[id].inventory) result.push(productsState.byId[id])
     return result
   }, [])
+}
+
+export const getProductsByCategory = (state, catId) => {
+  console.log('state.productCategories', state.productCategories)
+  return Object.values(state.productCategories.byId).reduce(
+    (result, prodCat) => {
+      if (prodCat.categoryId === catId) {
+        result.push(state.products.byId[prodCat.productId])
+      }
+      return result
+    },
+    []
+  )
 }
