@@ -20,7 +20,7 @@ class AllReviews extends React.Component {
                                     </div>
                                     <div className="card-action">
                                         <span>
-                                            {review.rating}
+                                            {review.rating} stars
                                         </span>
                                         <Link
                                             to={`/review/${review.productId}/${review.id}/edit`}
