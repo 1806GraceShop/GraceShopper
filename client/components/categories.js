@@ -8,7 +8,6 @@ class Categories extends React.Component {
 
   handleChange = (evt) => {
     evt.preventDefault()
-    // const productName = evt.target.productName.value
     history.push(`/search/${evt.target.value}`)
   }
 
