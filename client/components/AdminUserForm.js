@@ -1,15 +1,15 @@
 import React from 'react'
-import {Field, reduxForm} from 'redux-form'
+import {Field, reduxForm, formValueSelector} from 'redux-form'
 import {connect} from 'react-redux'
 
 let AdminUserForm = props => {
-  const {handleSubmit, pristine, submitting} = props
+  const {admin, handleSubmit, pristine, submitting} = props
   return (
     <div>
       <form className="row" onSubmit={handleSubmit}>
         <div className="col s12 m6 input-field">
           <Field name="firstName" component="input" type="text" />
-          <label htmlFor="title">First Name!</label>
+          <label htmlFor="title">First Name</label>
         </div>
         <div className="col s12 m6 input-field">
           <Field name="lastName" component="input" type="text" />
@@ -23,8 +23,20 @@ let AdminUserForm = props => {
           <Field name="email" disabled={true} component="input" type="text" />
           <label htmlFor="title">Email</label>
         </div>
+
+        <div className="input-field col s12">
+          <Field name="admin" id="adminSelect" component="select">
+            <option value="" disabled selected>
+              Administrator
+            </option>
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </Field>
+          <label htmlFor="title">Admin</label>
+        </div>
+
         <button
-          className="btn waves-effect waves-light"
+          className="col s6 btn waves-effect waves-light"
           disabled={pristine || submitting}
           type="submit"
         >
@@ -35,6 +47,7 @@ let AdminUserForm = props => {
       <script>
         {setTimeout(() => {
           M.updateTextFields()
+          M.FormSelect.init(document.getElementById('adminSelect'))
         }, 1)}
       </script>
     </div>

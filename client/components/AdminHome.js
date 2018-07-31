@@ -48,7 +48,6 @@ class AdminHome extends React.Component {
  * CONTAINER
  */
 const mapStateToProps = (state, ownProps) => {
-  console.log('params', ownProps.match.params.userId)
   return {
     user: state.user,
     email: state.user.email,
