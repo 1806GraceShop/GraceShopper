@@ -1,23 +1,34 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {getAllCategories, getProdCats, getProductsByCategory} from '../store'
-import {Link} from 'react-router-dom'
+import { connect } from 'react-redux'
+import { getAllCategories, getProductsBySearch } from '../store'
+import { Link } from 'react-router-dom'
+import history from '../history'
 
 class Categories extends React.Component {
-  constructor(props) {
-    super(props)
+
+  handleChange = (evt) => {
+    evt.preventDefault()
+    // const productName = evt.target.productName.value
+    history.push(`/search/${evt.target.value}`)
   }
 
   render() {
     return (
       <div className="container">
-          <p>In the Category component!!!</p>
-
-
-        <div className="container">
+        <form onSubmit={this.handleSubmit}>
+          <label> Search for Product </label>
+          <input
+            type="text"
+            placeholder="Search..."
+            name="productName"
+            autoFocus 
+            onChange = {this.handleChange}
+          />          
+        </form>
+        <div>
           {this.props.categories.map(category => (
-            <Link  key={category.id} to={`/category/${category.id}`}>
-            <p>{category.name} </p>
+            <Link key={category.id} to={`/category/${category.id}`}>
+              <p>{category.name} </p>
             </Link>
           ))}
         </div>
@@ -27,9 +38,11 @@ class Categories extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  getCategories: () => dispatch(getAllCategories())
-})
+const mapDispatchToProps = dispatch => {
+  return {
+    getCategories: () => dispatch(getAllCategories()),
+  }
+}
 
 const mapStateToProps = state => ({
   categories: getAllCategories(state),

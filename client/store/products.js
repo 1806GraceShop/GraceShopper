@@ -109,7 +109,6 @@ export const getAvailableProducts = productsState => {
 }
 
 export const getProductsByCategory = (state, catId) => {
-  console.log('state.productCategories', state.productCategories)
   return Object.values(state.productCategories.byId).reduce(
     (result, prodCat) => {
       if (prodCat.categoryId === catId) {
@@ -119,4 +118,13 @@ export const getProductsByCategory = (state, catId) => {
     },
     []
   )
+}
+
+export const getProductsBySearch = (productsState, productName) => {
+  return productsState.allIds.reduce((result, id) => {
+    if (productsState.byId[id].title.toLowerCase().indexOf(productName) >= 0 || productsState.byId[id].description.indexOf(productName) >= 0) 
+
+    result.push(productsState.byId[id])
+    return result
+  }, [])
 }
