@@ -7,7 +7,7 @@ const BigAddToCartButton = props => (
     type="button"
     onClick={() => {
       props.modifyCart()
-      M.toast({html: 'Added to Cart!', classes: 'green lighten-3'})
+      M.toast({html: '<h6>Added to Cart!</h6>', classes: 'green lighten-1'})
     }}
     disabled={props.disabled}
   >
