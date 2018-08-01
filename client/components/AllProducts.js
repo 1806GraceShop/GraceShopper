@@ -13,7 +13,7 @@ const ProductsList = props => {
     <div className="container">
       <div className="row">
         <div className="col s12 l3 z-depth-2">
-          <Categories />
+          <Categories catId={props.match.params.catId} />
         </div>
         <div className="col s12 l9">
           <br />

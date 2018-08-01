@@ -34,7 +34,7 @@ class Categories extends React.Component {
           </li>
           {this.props.categories.map(category => (
             <Link
-              className="collection-item black-text"
+              className={`collection-item black-text ${category.id === +this.props.catId ? 'blue lighten-5' : ''}`} 
               key={category.id}
               to={`/category/${category.id}`}
             >
