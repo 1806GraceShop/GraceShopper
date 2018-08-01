@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import ModifyCartButton from './ModifyCartButton'
+import {ModifyCartButton, AddToCartFromCardButton} from '../components'
 
 const ProductCard = ({product}) => (
   <div className="col s12 m6 xl4">
@@ -24,19 +24,7 @@ const ProductCard = ({product}) => (
         <ModifyCartButton
           productId={product.id}
           actionName="add"
-          buttonTypeComponent={props => (
-            <button
-              className="btn-floating white right"
-              alt="Add to Cart"
-              type="button"
-              onClick={props.modifyCart}
-              disabled={props.disabled}
-            >
-              <i className="material-icons green-text" alt="Add to cart">
-                add_shopping_cart
-              </i>{' '}
-            </button>
-          )}
+          buttonTypeComponent={AddToCartFromCardButton}
           nextQuantity={quantity => ++quantity}
         />
       </div>
