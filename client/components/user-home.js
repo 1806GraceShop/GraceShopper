@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import UserForm from './UserForm'
-import {updateUser, getCartItems} from '../store'
+import {updateUser, getCartItems, mergeCart} from '../store'
 
 /**
  * COMPONENT
@@ -12,7 +12,9 @@ class UserHome extends React.Component {
     this.props.updateUser(user)
   }
   componentDidMount() {
-    this.props.getCartItems() // TODO--replace with a compose call.
+    if (this.props.currentCart.allIds.length)
+      this.props.mergeCart(this.props.currentCart)
+    else this.props.getCartItems()
   }
 
   render() {
@@ -43,14 +45,16 @@ class UserHome extends React.Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    email: state.user.email
+    email: state.user.email,
+    currentCart: state.cart
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     updateUser: user => dispatch(updateUser(user)),
-    getCartItems: () => dispatch(getCartItems())
+    getCartItems: () => dispatch(getCartItems()),
+    mergeCart: cartState => dispatch(mergeCart(cartState))
   }
 }
 

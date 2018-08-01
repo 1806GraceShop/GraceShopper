@@ -13,7 +13,12 @@ router.put('/', (req, res, next) => {
 router.route('/cart').get((req, res, next) => {
   // If the user is logged in, send their cart.
   if (req.user)
-    Cart.findOrCreate({where: {userId: req.user.id}, include: [CartLineItem]})
+    Cart.findOrCreate({
+      where: {userId: req.user.id},
+      limit: 1,
+      order: [['createdAt', 'DESC']],
+      include: [CartLineItem]
+    })
       .spread(
         (cart, created) =>
           created ? res.status(201).json(cart) : res.json(cart)
@@ -22,6 +27,8 @@ router.route('/cart').get((req, res, next) => {
   else if (req.session.cartId) {
     Cart.findOrCreate({
       where: {id: +req.session.cartId},
+      limit: 1,
+      order: [['createdAt', 'DESC']],
       include: [CartLineItem]
     })
       .spread(

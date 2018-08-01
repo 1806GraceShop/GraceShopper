@@ -52,6 +52,18 @@ router
 router
   .route('/:cartId/items')
   .all(isOwnCart)
+  .put((req, res, next) => {
+    Promise.all(
+      req.body.map(lineItem =>
+        CartLineItem.upsert({
+          quantity: +lineItem.quantity,
+          productId: +lineItem.productId
+        })
+      )
+    )
+      .then(() => res.sendStatus(200))
+      .catch(next)
+  })
   .get((req, res, next) => {
     Cart.findById(+req.params.cartId)
       .then(cart => cart.getCartLineItems())
