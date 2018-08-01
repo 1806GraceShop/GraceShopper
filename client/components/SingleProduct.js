@@ -33,6 +33,7 @@ const SingleProduct = props => {
               productId={props.product.id}
               actionName="add"
               buttonTypeComponent={BigAddToCartButton}
+              nextQuantity={quantity => ++quantity}
             />
           </div>
         </div>

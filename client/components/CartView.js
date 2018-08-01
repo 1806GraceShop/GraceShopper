@@ -31,6 +31,7 @@ export const CartView = ({cart}) => {
                   productId={item.product.id}
                   buttonTypeComponent={SmallModifyCartButton}
                   actionName="remove"
+                  nextQuantity={quantity => --quantity}
                 />
               </td>
               <td className="center-align">{item.cartItem.quantity}</td>
@@ -39,6 +40,7 @@ export const CartView = ({cart}) => {
                   productId={item.product.id}
                   buttonTypeComponent={SmallModifyCartButton}
                   actionName="add"
+                  nextQuantity={quantity => ++quantity}
                 />
               </td>
             </tr>

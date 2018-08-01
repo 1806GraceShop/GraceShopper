@@ -119,3 +119,6 @@ export const getProductsByCategory = (state, catId) => {
     []
   )
 }
+
+export const inventoryByProductId = (state, productId) =>
+  state.products.byId[productId].inventory

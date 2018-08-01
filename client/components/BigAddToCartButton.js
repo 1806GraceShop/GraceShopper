@@ -6,7 +6,7 @@ const BigAddToCartButton = props => (
     alt="Add to Cart"
     type="button"
     onClick={props.modifyCart}
-    disabled={!props.productQuantity}
+    disabled={props.disabled}
   >
     Add to Cart
     <i className="material-icons right" alt="Add to cart">
