@@ -1,45 +1,60 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getAllCategories, getProdCats, getProductsByCategory} from '../store'
+import {getAllCategories} from '../store'
 import {Link} from 'react-router-dom'
+import history from '../history'
 
 class Categories extends React.Component {
-  constructor(props) {
-    super(props)
+  handleChange = evt => {
+    evt.preventDefault()
+    history.push(`/search/${evt.target.value}`)
   }
 
   render() {
     return (
-      <div className="container">
-          <h5>Categories</h5>
-        <div className="container">
-          {this.props.categories.map(category => {
-            let catText
-            if (category.id === +this.props.catId) {
-              catText = <Link  key={category.id} to={`/category/${category.id}`}><p><div className="blue-text blue lighten-5">{category.name}</div></p></Link>
-            } else {
-              catText = <Link  key={category.id} to={`/category/${category.id}`}><p>{category.name}</p></Link>
-            }
-            return (
-              <div>
-                {catText}
-              </div>
-            )
-          }
-          )}
+      <div>
+        <br />
+        <form onSubmit={this.handleSubmit}>
+          <label className="label-icon valign-wrapper">
+            <i className="material-icons">search</i> Search
+          </label>
+          <input
+            type="search"
+            id="search"
+            className="input-field"
+            placeholder="Search..."
+            name="productName"
+            onChange={this.handleChange}
+          />
+        </form>
+        <div className="divider" />
+        <div className="collection center-align">
+          <li className="collection-header">
+            <h6>Sort by Category</h6>
+          </li>
+          {this.props.categories.map(category => (
+            <Link
+              className={`collection-item black-text ${category.id === +this.props.catId ? 'blue lighten-5' : ''}`} 
+              key={category.id}
+              to={`/category/${category.id}`}
+            >
+              <p>{category.name} </p>
+            </Link>
+          ))}
         </div>
-
       </div>
     )
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  getCategories: () => dispatch(getAllCategories())
-})
+const mapDispatchToProps = dispatch => {
+  return {
+    getCategories: () => dispatch(getAllCategories())
+  }
+}
 
 const mapStateToProps = state => ({
-  categories: getAllCategories(state),
+  categories: getAllCategories(state)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Categories)

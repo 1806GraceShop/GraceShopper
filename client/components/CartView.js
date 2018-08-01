@@ -2,12 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {getCartItemsWithDetails} from '../store'
-import {AddToCartButton, SmallAddToCartButton} from '../components'
+import {
+  ModifyCartButton,
+  SmallModifyCartButton,
+  DeleteCartButton
+} from '../components'
 
 /**
  * COMPONENT
  */
-export const CartView = ({cart}) => {
+export const CartView = ({cart, emptyCart}) => {
   return (
     <div className="container">
       <h3>Your Cart</h3>
@@ -22,28 +26,48 @@ export const CartView = ({cart}) => {
           </tr>
         </thead>
         <tbody>
-          {cart.map(item => (
-            <tr key={item.cartItemId}>
-              <td>{item.product.title}</td>
-              <td>${item.product.price}</td>
-              <td className="right-align">
-                <a className="waves-effect waves-teal btn-small">
-                  <i className="material-icons ">remove</i>
-                </a>
-              </td>
-              <td className="center-align">{item.cartItem.quantity}</td>
-              <td className="left-align">
-                <AddToCartButton
-                  productId={item.product.id}
-                  buttonTypeComponent={SmallAddToCartButton}
-                />
-              </td>
+          {emptyCart ? (
+            <tr>
+              <td colSpan="5">Your cart is empty!</td>
             </tr>
-          ))}
+          ) : (
+            cart.map(item => (
+              <tr key={item.cartItemId}>
+                <td className="valign-wrapper">
+                  <img src={item.product.imageURL} height="50px" />
+                  <p style={{paddingLeft: '10px'}}>{item.product.title}</p>
+                </td>
+                <td>${item.product.price}</td>
+                <td className="right-align">
+                  <ModifyCartButton
+                    productId={item.product.id}
+                    buttonTypeComponent={SmallModifyCartButton}
+                    actionName="remove"
+                    nextQuantity={quantity => --quantity}
+                  />
+                </td>
+                <td className="center-align">{item.cartItem.quantity}</td>
+                <td className="left-align">
+                  <ModifyCartButton
+                    productId={item.product.id}
+                    buttonTypeComponent={SmallModifyCartButton}
+                    actionName="add"
+                    nextQuantity={quantity => ++quantity}
+                  />
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
-      <button type="button" className="btn right">
-        CHECKOUT BUTTON PLACEHOLDER
+      <br />
+
+      <div className="left">
+        <DeleteCartButton disabled={emptyCart} />
+      </div>
+      <br />
+      <button type="button" className="btn right" disabled={emptyCart}>
+        Checkout
       </button>
     </div>
   )
@@ -53,7 +77,8 @@ export const CartView = ({cart}) => {
  * CONTAINER
  */
 const mapState = state => ({
-  cart: getCartItemsWithDetails(state)
+  cart: state.cart.cartId ? getCartItemsWithDetails(state) : [],
+  emptyCart: !state.cart.cartId || !state.cart.allIds.length
 })
 
 export default connect(mapState)(CartView)

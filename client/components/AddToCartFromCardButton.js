@@ -1,8 +1,8 @@
 import React from 'react'
 
-const BigAddToCartButton = props => (
+const AddToCartFromCardButton = props => (
   <button
-    className="waves-effect waves-light btn teal lighten-1"
+    className="btn-floating light-green lighten-5 right waves-effect waves-dark"
     alt="Add to Cart"
     type="button"
     onClick={() => {
@@ -11,11 +11,10 @@ const BigAddToCartButton = props => (
     }}
     disabled={props.disabled}
   >
-    Add to Cart
-    <i className="material-icons right" alt="Add to cart">
+    <i className="material-icons green-text text-darken-2" alt="Add to cart">
       add_shopping_cart
-    </i>
+    </i>{' '}
   </button>
 )
 
-export default BigAddToCartButton
+export default AddToCartFromCardButton

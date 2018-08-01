@@ -1,45 +1,42 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 
-class AllReviews extends React.Component {
+const makeStarsArray = numberOfStars =>
+  Array.from(new Array(numberOfStars), (val, index) => index + 1)
 
-    render() {
-        console.log('this is the props for reviews', this.props)
-        return (
-            <div className="container">
-                <div className="column">
-                    <div>
-                        {this.props.review.map(review => (
-                            <div key={review.id} className="col s12 m4 l3">
-                                <div className="card small">
-                                    <div className="card-content">
-                                        <span className="card-title grey-text text-darken-4" id={`review_${review.id}`}>
-                                            {review.body}
-                                        </span>
-                                    </div>
-                                    <div className="card-action">
-                                        <span>
-                                            {review.rating} stars
-                                        </span>
-                                        <Link
-                                            to={`/review/${review.productId}/${review.id}/edit`}
-                                            className="waves-effect right red waves-light btn"
-                                        >
-                                            Edit Review
-                <i className="material-icons right">edit</i>
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-        )
-    }
-}
+const AllReviews = props => (
+  <div className="row">
+    {props.review.map(review => (
+      <div key={review.id} className="col s12">
+        <div className="card blue-grey">
+          <div className="card-content white-text">
+            <p className="flow-text" id={`review_${review.id}`}>
+              {review.body}
+            </p>
+          </div>
+          <div className="card-action">
+            {makeStarsArray(review.rating).map(star => (
+              <div
+                key={star}
+                style={{display: 'inline-block', maxWidth: '10%'}}
+              >
+                <i className="material-icons small yellow-text">star_review</i>
+              </div>
+            ))}
 
-
+            <Link
+              to={`/review/${review.productId}/${review.id}/edit`}
+              className="blue waves-effect right  waves-light btn"
+            >
+              Edit Review
+              <i className="material-icons right">edit</i>
+            </Link>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+)
 
 export default connect(null, null)(AllReviews)

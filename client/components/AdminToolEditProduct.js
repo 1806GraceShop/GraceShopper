@@ -19,6 +19,10 @@ const AdminToolEditProduct = props => {
               Edit Product
               <i className="material-icons right">edit</i>
             </Link>
+            <Link to="/admin" className="waves-effect red waves-light btn">
+              Admin Home
+              <i className="material-icons right">edit</i>
+            </Link>
           </div>
         </div>
       </div>

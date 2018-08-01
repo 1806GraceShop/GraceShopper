@@ -14,16 +14,11 @@ Category.belongsToMany(Product, {through: ProductCategory})
 User.hasMany(Order)
 Order.belongsTo(User)
 
-
-//Order.belongsToMany(Product, {through: OrderLineItem})
-//Product.belongsToMany(Order, {through: OrderLineItem})
 Order.hasMany(OrderLineItem)
 OrderLineItem.belongsTo(Order)
 Product.hasMany(OrderLineItem)
 OrderLineItem.belongsTo(Product)
 
-//Product.belongsToMany(User, {through: Review})
-//User.belongsToMany(Product, {through: Review})
 Product.hasMany(Review)
 Review.belongsTo(Product)
 User.hasMany(Review)
@@ -34,7 +29,6 @@ Cart.hasMany(CartLineItem)
 CartLineItem.belongsTo(Cart)
 Product.belongsToMany(Cart, {through: CartLineItem})
 Cart.belongsToMany(Product, {through: CartLineItem})
-
 
 module.exports = {
   User,

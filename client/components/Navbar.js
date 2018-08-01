@@ -2,13 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {getTotalItemsInCart, logout} from '../store'
+import {getTotalItemsInCart, logout, emptyCart} from '../store'
 
 const CartBadge = props => (
   <li>
     <Link to="/cart">
-      {' '}
-      Cart{' '}
+      <i className="material-icons right">shopping_cart</i> Cart{' '}
       <span
         className="new light-blue darken-1 badge"
         data-badge-caption="items"
@@ -46,25 +45,28 @@ const LoggedOutLinks = props => (
 )
 
 const Navbar = props => (
-  <nav className="light-red lighten-1" role="navigation">
-    <div className="nav-wrapper container">
-      <Link to="/" href="#" id="logo-container" className="brand-logo">
-        Grace<i className="material-icons">store_mall_directory</i>
-        Shopper
-      </Link>
-      <ul className="right hide-on-med-and-down">
-        {props.isLoggedIn ? <LoggedInLinks {...props} /> : <LoggedOutLinks />}
-        <CartBadge {...props} />
-      </ul>
-      <ul id="nav-mobile" className="sidenav">
-        <CartBadge {...props} />
-        {props.isLoggedIn ? <LoggedInLinks {...props} /> : <LoggedOutLinks />}
-      </ul>
-      <a href="#" data-target="nav-mobile" className="sidenav-trigger">
-        <i className="material-icons">menu</i>
-      </a>
-    </div>
-  </nav>
+  <div>
+    <nav className="light-red lighten-1" role="navigation">
+      <div className="nav-wrapper container">
+        <Link to="/" className="brand-logo logo-container">
+          <i className="material-icons">store_mall_directory</i>
+          <span className="flow-text truncate"> Grace Shopper </span>
+        </Link>
+
+        <ul className="right hide-on-med-and-down">
+          {props.isLoggedIn ? <LoggedInLinks {...props} /> : <LoggedOutLinks />}
+          <CartBadge {...props} />
+        </ul>
+        <ul id="nav-mobile" className="sidenav">
+          <CartBadge {...props} />
+          {props.isLoggedIn ? <LoggedInLinks {...props} /> : <LoggedOutLinks />}
+        </ul>
+        <a href="#" data-target="nav-mobile" className="sidenav-trigger">
+          <i className="material-icons">menu</i>
+        </a>
+      </div>
+    </nav>
+  </div>
 )
 
 /**
@@ -73,7 +75,7 @@ const Navbar = props => (
 const mapState = state => {
   return {
     isLoggedIn: !!state.user.id,
-    cartSize: getTotalItemsInCart(state.cart)
+    cartSize: getTotalItemsInCart(state)
   }
 }
 
@@ -81,6 +83,7 @@ const mapDispatch = dispatch => {
   return {
     handleClick() {
       dispatch(logout())
+      dispatch(emptyCart())
     }
   }
 }
