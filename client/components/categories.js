@@ -1,37 +1,45 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { getAllCategories, getProductsBySearch } from '../store'
-import { Link } from 'react-router-dom'
+import {connect} from 'react-redux'
+import {getAllCategories} from '../store'
+import {Link} from 'react-router-dom'
 import history from '../history'
 
 class Categories extends React.Component {
-
-  handleChange = (evt) => {
+  handleChange = evt => {
     evt.preventDefault()
     history.push(`/search/${evt.target.value}`)
   }
 
   render() {
     return (
-      <div className="container">
+      <div>
+        <br />
         <form onSubmit={this.handleSubmit}>
-          <label> Search for Product </label>
+          <label className="label-icon valign-wrapper">
+            <i className="material-icons">search</i> Search
+          </label>
           <input
-            type="text"
+            type="search"
+            id="search"
+            className="input-field"
             placeholder="Search..."
             name="productName"
-            autoFocus 
-            onChange = {this.handleChange}
-          />          
+            onChange={this.handleChange}
+          />
         </form>
-        <div>
+        <h6>Select a category:</h6>
+        <div className="divider" />
+        <div className="collection center-align">
           {this.props.categories.map(category => (
-            <Link key={category.id} to={`/category/${category.id}`}>
+            <Link
+              className="collection-item black-text"
+              key={category.id}
+              to={`/category/${category.id}`}
+            >
               <p>{category.name} </p>
             </Link>
           ))}
         </div>
-
       </div>
     )
   }
@@ -39,12 +47,12 @@ class Categories extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getCategories: () => dispatch(getAllCategories()),
+    getCategories: () => dispatch(getAllCategories())
   }
 }
 
 const mapStateToProps = state => ({
-  categories: getAllCategories(state),
+  categories: getAllCategories(state)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Categories)

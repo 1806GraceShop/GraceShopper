@@ -4,7 +4,7 @@ import {ModifyCartButton, AddToCartFromCardButton} from '../components'
 
 const ProductCard = ({product}) => (
   <div className="col s12 m6 xl4">
-    <div className="card large hoverable">
+    <div className="card large z-depth-3">
       <Link to={`/product/${product.id}`}>
         <div className="card-image">
           <img src={product.imageURL} />

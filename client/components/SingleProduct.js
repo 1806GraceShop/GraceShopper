@@ -37,16 +37,16 @@ const SingleProduct = props => {
             />
           </div>
         </div>
-        <p className="col s12 m7 pull-m5">{description}</p>
+        <p className="col s12 m7 pull-m5 flow-text">{description}</p>
       </div>
       <br />
       <div className="col s12">
         <Link
           to={`review/${props.match.params.productId}/add`}
-          className="waves-effect red waves-light btn"
+          className="waves-effect green darken-2 waves-light btn"
         >
-          Add Review
-          <i className="material-icons right">edit</i>
+          Login to Rate and Review
+          <i className="material-icons right">rate_review</i>
         </Link>
         <AllReviews review={props.review} />
       </div>
