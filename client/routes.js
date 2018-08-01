@@ -10,10 +10,22 @@ import {
   SingleProduct,
   AddProduct,
   EditProduct,
+  AdminHome,
+  AddReview,
+  EditReview,
+  AllReviews,
   CartView,
-  AdminHome
+  ProductsByCategory,
+  ProductsBySearch
 } from './components'
-import {me, getProducts, getCartItems} from './store'
+import {
+  me,
+  getProducts,
+  getCategories,
+  getProdCats,
+  getReviews,
+  getCartItems
+} from './store'
 
 const ProtectedRoute = ({component: Comp, condition, redirect, path}) => (
   <Route
@@ -36,15 +48,35 @@ class Routes extends Component {
         {' '}
         {/* ALL VISITORS ACCESS */}
         <Route exact path="/" component={AllProducts} />
+        <Route exact path="/category/:catId" component={ProductsByCategory} />
+        <Route exact path="/search/:productName" component={ProductsBySearch} />
+        <Route exact path="/search" component={AllProducts} />
         <Route exact path="/cart" component={CartView} />
         <Route
           exact
           path="/product/:productId([0-9]*)"
           component={SingleProduct}
         />
+        <Route
+          exact
+          path="/review/:productId/:reviewId([0-9]*)"
+          component={AllReviews}
+        />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         {/* LOGGED IN USER ACCESS */}
+        <ProtectedRoute
+          path="/product/review/:productId/add"
+          component={AddReview}
+          condition={isLoggedIn}
+          redirect="/login"
+        />
+        <ProtectedRoute
+          path="/review/:productId/:reviewId/edit"
+          component={EditReview}
+          condition={isLoggedIn}
+          redirect="/login"
+        />
         <ProtectedRoute
           path="/home"
           component={UserHome}
@@ -85,8 +117,6 @@ class Routes extends Component {
  * CONTAINER
  */
 const mapState = state => {
-  console.log('STATE.USER =', state.user)
-
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
@@ -99,7 +129,10 @@ const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch(me())
+      dispatch(getCategories())
       dispatch(getProducts())
+      dispatch(getProdCats())
+      dispatch(getReviews())
       dispatch(getCartItems())
     }
   }

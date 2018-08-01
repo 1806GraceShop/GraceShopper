@@ -8,46 +8,51 @@ export const ascending = (val1, val2) => val1 - val2
 const GOT_CART = 'GOT_CART'
 const CART_ADD_ITEM = 'CART_ADD_ITEM'
 const CART_EDIT_ITEM = 'CART_EDIT_ITEM'
+const CART_EMPTY = 'CART_EMPTY'
+const CART_CREATED = 'CART_CREATED'
 
 // INITIAL STATE
 const defaultCart = {
-  byProductId: {
-    0: {}
-    // [lineItemId : int]: {
-    //   productId: 0,
-    //   quantity: 0,
-    // }
-  },
-  allProductIds: []
-  // sessionId: ''
+  cartId: 0,
+  byId: {},
+  allIds: []
 }
 
 // ACTION CREATORS
 
 const addedItem = item => ({type: CART_ADD_ITEM, item})
 const editedItem = item => ({type: CART_EDIT_ITEM, item})
-const gotCart = items => ({type: GOT_CART, items})
-
-// const removeUser = () => ({type: REMOVE_USER})
-
+const gotCart = cart => ({type: GOT_CART, cart})
+export const emptyCart = () => ({type: CART_EMPTY})
 // THUNK CREATORS
 
 export const getCartItems = () => dispatch =>
   axios
-    .get('/api/carts/')
-    .then(({data}) => dispatch(gotCart(data || [])))
-    .catch(err => console.log(err))
+    .get('/api/me/cart')
+    .then(({data}) => dispatch(gotCart(data)))
+    .catch(err => err.status === 404 || console.log(err))
 
-export const addItemToCart = lineItem => dispatch => {
-  axios
-    .post('/api/carts/', lineItem)
-    .then(({data}) => dispatch(addedItem(data)))
-    .catch(err => console.error(err))
+export const addItemToCart = ({cartId, quantity, productId}) => dispatch => {
+  console.log('ADDING', cartId, quantity, productId)
+  if (cartId)
+    axios
+      .post(`/api/carts/${cartId}/items`, {quantity, productId})
+      .then(({data}) => dispatch(addedItem(data)))
+      .catch(err => console.error(err))
+  else
+    axios
+      .post('/api/carts/', {quantity, productId})
+      .then(({data}) => {
+        console.log('GOT BACK FROM POST TO /carts ', data.lineItem)
+        dispatch(addedItem(data.lineItem))
+      })
+      .catch(err => console.error(err))
 }
 
-export const editItemInCart = lineItem => dispatch => {
+export const editItemInCart = ({cartId, lineItem}) => dispatch => {
+  console.log('EDITING', cartId, lineItem)
   axios
-    .put('/api/carts/', lineItem)
+    .put(`/api/carts/${cartId}/items/${lineItem.id}`, lineItem)
     .then(({data}) => {
       console.log('DATA', data)
       dispatch(editedItem(data))
@@ -57,52 +62,63 @@ export const editItemInCart = lineItem => dispatch => {
 
 // REDUCER
 export default function(state = defaultCart, action) {
+  console.log('CART ACTION', action)
   switch (action.type) {
     case GOT_CART:
       return {
-        ...state,
-        byProductId: action.items.reduce((result, item) => {
-          result[item.productId] = item
+        cartId: action.cart.id,
+        byId: action.cart.cartLineItems.reduce((result, item) => {
+          result[item.id] = item
           return result
         }, {}),
-        allProductIds: action.items.map(item => item.productId).sort(ascending)
+        allIds: action.cart.cartLineItems.map(item => item.id).sort(ascending)
       }
-    case CART_ADD_ITEM:
+    case CART_ADD_ITEM: // intentional fallthrough
     case CART_EDIT_ITEM:
       return {
         ...state,
-        byProductId: {
-          ...state.byProductId,
-          [action.item.productId]: action.item
-        },
-        allProductIds: state.allProductIds
-          .filter(id => id !== action.item.productId)
-          .concat(action.item.productId)
+        cartId: action.item.cartId,
+        byId: {...state.byId, [action.item.id]: action.item},
+        allIds: state.allIds
+          .filter(id => id !== action.item.id)
+          .concat(action.item.id)
           .sort(ascending)
       }
+    case CART_EMPTY:
+      return defaultCart
     default:
       return state
   }
 }
 
-export const getQuantityById = (cartState, id) =>
-  id in cartState.byProductId ? cartState.byProductId[id].quantity : 0
+export const getCartId = state => state.cart.cartId
 
-export const addToCartQuantity = (cartState, id) => {
-  return id in cartState.byProductId
-    ? cartState.byProductId[id].quantity + 1
-    : 1
+export const getLineItemByProductId = (state, productId) => {
+  return (
+    Object.values(state.cart.byId).find(
+      lineItem => lineItem.productId === productId
+    ) || {}
+  )
 }
 
-export const getTotalItemsInCart = cartState =>
-  cartState.allProductIds.reduce(
-    (sum, id) => sum + cartState.byProductId[id].quantity,
-    0
+export const quantityByProductId = (state, productId) => {
+  return getLineItemByProductId(state, productId).quantity || 0
+}
+
+export const isInCartByProductId = (state, productId) => {
+  return Object.values(state.cart.byId).reduce(
+    (found, lineItem) =>
+      found || lineItem.productId === productId ? true : found,
+    false
   )
+}
+
+export const getTotalItemsInCart = state =>
+  state.cart.allIds.reduce((sum, id) => sum + state.cart.byId[id].quantity, 0)
 
 export const getCartItemsWithDetails = state =>
-  state.cart.allProductIds.map(id => ({
+  state.cart.allIds.map(id => ({
     cartItemId: id,
-    product: state.products.byId[id],
-    cartItem: state.cart.byProductId[id]
+    product: state.products.byId[state.cart.byId[id].productId],
+    cartItem: state.cart.byId[id]
   }))

@@ -8,6 +8,7 @@ const ProductCard = ({product}) => (
         <div className="card-image">
           <img src={product.imageURL} />
         </div>
+
         <div className="card-content">
           <span className="card-title grey-text text-darken-4">
             {product.title}

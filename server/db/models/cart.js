@@ -5,7 +5,6 @@ const Cart = db.define('cart', {
   sessionId: {
     type: Sequelize.STRING,
     allowNull: false,
-    unique: true,
     validate: {
       notEmpty: true
     }

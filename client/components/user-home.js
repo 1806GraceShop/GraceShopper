@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import UserForm from './UserForm'
-import {updateUser} from '../store'
+import {updateUser, getCartItems} from '../store'
 
 /**
  * COMPONENT
@@ -10,6 +10,9 @@ import {updateUser} from '../store'
 class UserHome extends React.Component {
   submit = user => {
     this.props.updateUser(user)
+  }
+  componentDidMount() {
+    this.props.getCartItems() // TODO--replace with a compose call.
   }
 
   render() {
@@ -46,7 +49,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateUser: user => dispatch(updateUser(user))
+    updateUser: user => dispatch(updateUser(user)),
+    getCartItems: () => dispatch(getCartItems())
   }
 }
 

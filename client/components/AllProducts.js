@@ -1,15 +1,17 @@
 import React from 'react'
-import {ProductCard, AdminToolAddProduct} from '../components'
+import {ProductCard, Categories, AdminToolAddProduct} from '../components'
 import {connect} from 'react-redux'
-import {getAvailableProducts} from '../store'
+import {getAvailableProducts, getProductsByCategory, getProductsBySearch} from '../store'
 
-const AllProducts = props => {
+const ProductsList = props => {
   const {isAdmin} = props
   return (
     <div className="container">
       <div className="row">
         <div className="col s12 m4 l3">
-          <p>Filtering Placeholder</p>
+          <div>
+            <Categories />
+          </div>
         </div>
         <div className="col s12 m8 l9">
           <AdminToolAddProduct isAdmin={isAdmin} />
@@ -22,9 +24,22 @@ const AllProducts = props => {
   )
 }
 
-const mapStateToProps = state => ({
-  products: getAvailableProducts(state.products),
+const mapProducts = state => ({
+  products: getAvailableProducts(state.products) || [],
   isAdmin: !!state.user.admin
 })
 
-export default connect(mapStateToProps)(AllProducts)
+const mapCategories = (state, ownProps) => ({
+  products: getProductsByCategory(state, +ownProps.match.params.catId),
+  isAdmin: !!state.user.admin,
+})
+
+const mapSearch = (state, ownProps) => ({
+  products: getProductsBySearch(state.products, ownProps.match.params.productName),
+  isAdmin: !!state.user.admin
+})
+
+export const AllProducts = connect(mapProducts)(ProductsList)
+export const ProductsByCategory = connect(mapCategories)(ProductsList)
+export const ProductsBySearch = connect(mapSearch)(ProductsList)
+
