@@ -31,6 +31,7 @@ const SingleProduct = props => {
           <div className="col s12 m9">
             <ModifyCartButton
               productId={props.product.id}
+              actionName="add"
               buttonTypeComponent={BigAddToCartButton}
             />
           </div>

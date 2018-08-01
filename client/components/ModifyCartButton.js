@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import PropTypes from 'prop-types'
 import {
   addItemToCart,
   editItemInCart,
@@ -11,7 +12,7 @@ import {
 class ModifyCartButton extends React.Component {
   // Expects a prodId prop to be give to it from higher order component.
   // Also expects a dumb button that can take an 'add' prop to be given to it.
-  add = () => {
+  modifyCart = () => {
     const {productId, cartId, lineItem} = this.props
     console.log('LINE ITEM', lineItem, lineItem.length)
     if (lineItem.id && cartId) {
@@ -21,12 +22,14 @@ class ModifyCartButton extends React.Component {
       })
     } else this.props.addItemToCart({cartId, productId, quantity: 1})
   }
+  validate = () => {}
 
   render() {
     const WrappedButton = this.props.buttonTypeComponent
     return (
       <WrappedButton
-        add={this.add}
+        modifyCart={this.modifyCart}
+        actionName={this.props.actionName}
         productQuantity={this.props.productQuantity}
       />
     )
@@ -45,3 +48,10 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModifyCartButton)
+
+/**
+ * PROP TYPES
+ */
+ModifyCartButton.propTypes = {
+  actionName: PropTypes.string.isRequired
+}
