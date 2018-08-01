@@ -46,25 +46,28 @@ const LoggedOutLinks = props => (
 )
 
 const Navbar = props => (
-  <nav className="light-red lighten-1" role="navigation">
-    <div className="nav-wrapper container">
-      <Link to="/" href="#" id="logo-container" className="brand-logo">
-        Grace<i className="material-icons">store_mall_directory</i>
-        Shopper
-      </Link>
-      <ul className="right hide-on-med-and-down">
-        {props.isLoggedIn ? <LoggedInLinks {...props} /> : <LoggedOutLinks />}
-        <CartBadge {...props} />
-      </ul>
-      <ul id="nav-mobile" className="sidenav">
-        <CartBadge {...props} />
-        {props.isLoggedIn ? <LoggedInLinks {...props} /> : <LoggedOutLinks />}
-      </ul>
-      <a href="#" data-target="nav-mobile" className="sidenav-trigger">
-        <i className="material-icons">menu</i>
-      </a>
-    </div>
-  </nav>
+  <div className="navbar-fixed">
+    <nav className="light-red lighten-1" role="navigation">
+      <div className="nav-wrapper container">
+        <Link to="/" className="brand-logo logo-container">
+          <i className="material-icons">store_mall_directory</i>
+          <span className="flow-text truncate"> Grace Shopper </span>
+        </Link>
+
+        <ul className="right hide-on-med-and-down">
+          {props.isLoggedIn ? <LoggedInLinks {...props} /> : <LoggedOutLinks />}
+          <CartBadge {...props} />
+        </ul>
+        <ul id="nav-mobile" className="sidenav">
+          <CartBadge {...props} />
+          {props.isLoggedIn ? <LoggedInLinks {...props} /> : <LoggedOutLinks />}
+        </ul>
+        <a href="#" data-target="nav-mobile" className="sidenav-trigger">
+          <i className="material-icons">menu</i>
+        </a>
+      </div>
+    </nav>
+  </div>
 )
 
 /**
