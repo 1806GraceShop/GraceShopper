@@ -10,11 +10,13 @@ import {
   SingleProduct,
   AddProduct,
   EditProduct,
+  AdminHome,
   AddReview,
   EditReview,
   AllReviews,
   CartView,
-  ProductsByCategory
+  ProductsByCategory,
+  ProductsBySearch
 } from './components'
 import {
   me,
@@ -47,6 +49,8 @@ class Routes extends Component {
         {/* ALL VISITORS ACCESS */}
         <Route exact path="/" component={AllProducts} />
         <Route exact path="/category/:catId" component={ProductsByCategory} />
+        <Route exact path="/search/:productName" component={ProductsBySearch} />
+        <Route exact path="/search" component={AllProducts} />
         <Route exact path="/cart" component={CartView} />
         <Route
           exact
@@ -80,6 +84,18 @@ class Routes extends Component {
           redirect="/login"
         />
         {/* ADMIN ACCESS ONLY */}
+        <ProtectedRoute
+          path="/admin/user/:userId"
+          component={AdminHome}
+          condition={true}
+          redirect="/login"
+        />
+        <ProtectedRoute
+          path="/admin"
+          component={AdminHome}
+          condition={true}
+          redirect="/login"
+        />
         <ProtectedRoute
           path="/product/:productId/edit"
           component={EditProduct}
