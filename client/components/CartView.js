@@ -24,7 +24,10 @@ export const CartView = ({cart}) => {
         <tbody>
           {cart.map(item => (
             <tr key={item.cartItemId}>
-              <td>{item.product.title}</td>
+              <td className="valign-wrapper">
+                <img src={item.product.imageURL} height="50px" />
+                <p style={{paddingLeft: '10px'}}>{item.product.title}</p>
+              </td>
               <td>${item.product.price}</td>
               <td className="right-align">
                 <ModifyCartButton

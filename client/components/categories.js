@@ -27,9 +27,11 @@ class Categories extends React.Component {
             onChange={this.handleChange}
           />
         </form>
-        <h6>Select a category:</h6>
         <div className="divider" />
         <div className="collection center-align">
+          <li className="collection-header">
+            <h6>Sort by Category</h6>
+          </li>
           {this.props.categories.map(category => (
             <Link
               className="collection-item black-text"
