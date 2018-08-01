@@ -1,15 +1,22 @@
 import axios from 'axios'
-import history from '../history'
 
 // Helpers
 export const ascending = (val1, val2) => val1 - val2
 
+function union(a, b) {
+  const cache = {}
+  a.forEach(item => (cache[item] = true))
+  b.forEach(item => (cache[item] = true))
+  return Object.keys(cache)
+}
+
 // ACTION TYPES
 const GOT_CART = 'GOT_CART'
+const MERGED_CARTS = 'MERGED_CARTS'
 const CART_ADD_ITEM = 'CART_ADD_ITEM'
 const CART_EDIT_ITEM = 'CART_EDIT_ITEM'
 const CART_EMPTY = 'CART_EMPTY'
-const CART_CREATED = 'CART_CREATED'
+const NEW_CART_CREATED = 'NEW_CART_CREATED'
 
 // INITIAL STATE
 const defaultCart = {
@@ -23,8 +30,9 @@ const defaultCart = {
 const addedItem = item => ({type: CART_ADD_ITEM, item})
 const editedItem = item => ({type: CART_EDIT_ITEM, item})
 const gotCart = cart => ({type: GOT_CART, cart})
+const mergedCart = cart => ({type: MERGED_CARTS, cart})
 export const emptyCart = () => ({type: CART_EMPTY})
-export const cartCreated = cartId => ({type: CART_CREATED, cartId})
+export const cartCreated = cartId => ({type: NEW_CART_CREATED, cartId})
 // THUNK CREATORS
 
 export const getCartItems = () => dispatch =>
@@ -48,6 +56,49 @@ export const addItemToCart = ({cartId, quantity, productId}) => dispatch => {
       .catch(err => console.error(err))
 }
 
+export const mergeCart = currentCart => dispatch => {
+  // Normalizes the current cart with Key = productId.
+  const cartByProdId = currentCart.allIds.reduce((acc, id) => {
+    acc[currentCart.byId[id].productId] = currentCart.byId[id]
+    return acc
+  }, {})
+
+  axios
+    // get the stored cart for this user.
+    .get('/api/me/cart')
+    .then(({data}) => {
+      // Normalize what the DB tells use using ProductId as key
+      const dbByProdId = data.cartLineItems.reduce((result, item) => {
+        result[item.productId] = item
+        return result
+      }, {})
+
+      // generate a list of all product Ids...(db and cart)
+      let allProdIds = union(Object.keys(cartByProdId), Object.keys(dbByProdId))
+
+      const cartLineItems = allProdIds.map(id => {
+        if (id in cartByProdId && id in dbByProdId) {
+          dbByProdId[id].quantity += cartByProdId[id].quantity
+          return dbByProdId[id]
+        }
+        if (id in cartByProdId) return cartByProdId[id]
+        if (id in dbByProdId) return dbByProdId[id]
+      })
+
+      return {...data, cartLineItems}
+    })
+    .then(updatedLineItems => {
+      axios
+        .put(
+          `/api/carts/${updatedLineItems.id}/items`,
+          updatedLineItems.cartLineItems
+        )
+        .then(() => dispatch(mergedCart(updatedLineItems)))
+        .catch(err => console.error(err))
+    })
+    .catch(err => console.error(err))
+}
+
 export const newCart = () => dispatch => {
   axios
     .post('/api/carts/')
@@ -69,6 +120,7 @@ export const editItemInCart = ({cartId, lineItem}) => dispatch => {
 // REDUCER
 export default function(state = defaultCart, action) {
   switch (action.type) {
+    case MERGED_CARTS: // intentional fallthrough
     case GOT_CART:
       return {
         ...state,
@@ -93,7 +145,7 @@ export default function(state = defaultCart, action) {
 
     case CART_EMPTY:
       return defaultCart
-    case CART_CREATED:
+    case NEW_CART_CREATED:
       return {
         ...defaultCart,
         cartId: action.cartId
