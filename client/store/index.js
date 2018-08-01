@@ -4,6 +4,7 @@ import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import products from './products'
+import allUsers from './allUsers'
 import reviews from './reviews'
 import cart from './cart'
 import categories from './categories'
@@ -12,6 +13,7 @@ import {reducer as formReducer} from 'redux-form'
 
 const reducer = combineReducers({
   user,
+  allUsers,
   products,
   reviews,
   cart,
@@ -29,5 +31,6 @@ export * from './user'
 export * from './products'
 export * from './reviews'
 export * from './cart'
+export * from './allUsers'
 export * from './categories'
 export * from './productCategories'

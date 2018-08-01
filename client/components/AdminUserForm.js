@@ -1,9 +1,9 @@
 import React from 'react'
-import {Field, reduxForm} from 'redux-form'
+import {Field, reduxForm, formValueSelector} from 'redux-form'
 import {connect} from 'react-redux'
 
-let UserForm = props => {
-  const {handleSubmit, pristine, submitting} = props
+let AdminUserForm = props => {
+  const {admin, handleSubmit, pristine, submitting} = props
   return (
     <div>
       <form className="row" onSubmit={handleSubmit}>
@@ -17,14 +17,26 @@ let UserForm = props => {
         </div>
         <div className="col s12 input-field">
           <Field name="address" component="input" type="text" />
-          <label htmlFor="title">Address?</label>
+          <label htmlFor="title">Address</label>
         </div>
         <div className="col s12 input-field">
           <Field name="email" disabled={true} component="input" type="text" />
           <label htmlFor="title">Email</label>
         </div>
+
+        <div className="input-field col s12">
+          <Field name="admin" id="adminSelect" component="select">
+            <option value="" disabled selected>
+              Administrator
+            </option>
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </Field>
+          <label htmlFor="title">Admin</label>
+        </div>
+
         <button
-          className="btn waves-effect waves-light"
+          className="col s6 btn waves-effect waves-light"
           disabled={pristine || submitting}
           type="submit"
         >
@@ -34,21 +46,23 @@ let UserForm = props => {
       </form>
       <script>
         {setTimeout(() => {
-          // M.AutoInit()
           M.updateTextFields()
+          M.FormSelect.init(document.getElementById('adminSelect'))
         }, 1)}
       </script>
     </div>
   )
 }
 
-const mapDispatchToProps = dispatch => ({})
+const mapStateToProps = (state, {match}) => {
+  return {
+    initialValues: state.allUsers.byId[match.params.userId]
+  }
+}
 
-const mapStateToProps = state => ({
-  initialValues: state.user
-})
+AdminUserForm = reduxForm({form: 'adminUserForm', enableReinitialize: true})(
+  AdminUserForm
+)
+AdminUserForm = connect(mapStateToProps)(AdminUserForm)
 
-UserForm = reduxForm({form: 'userForm'})(UserForm)
-UserForm = connect(mapStateToProps, mapDispatchToProps)(UserForm)
-
-export default UserForm
+export default AdminUserForm
