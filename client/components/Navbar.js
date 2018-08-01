@@ -7,8 +7,7 @@ import {getTotalItemsInCart, logout, emptyCart} from '../store'
 const CartBadge = props => (
   <li>
     <Link to="/cart">
-      {' '}
-      Cart{' '}
+      <i className="material-icons right">shopping_cart</i> Cart{' '}
       <span
         className="new light-blue darken-1 badge"
         data-badge-caption="items"

@@ -24,6 +24,7 @@ const addedItem = item => ({type: CART_ADD_ITEM, item})
 const editedItem = item => ({type: CART_EDIT_ITEM, item})
 const gotCart = cart => ({type: GOT_CART, cart})
 export const emptyCart = () => ({type: CART_EMPTY})
+export const cartCreated = cartId => ({type: CART_CREATED, cartId})
 // THUNK CREATORS
 
 export const getCartItems = () => dispatch =>
@@ -33,7 +34,6 @@ export const getCartItems = () => dispatch =>
     .catch(err => err.status === 404 || console.log(err))
 
 export const addItemToCart = ({cartId, quantity, productId}) => dispatch => {
-  console.log('ADDING', cartId, quantity, productId)
   if (cartId)
     axios
       .post(`/api/carts/${cartId}/items`, {quantity, productId})
@@ -43,18 +43,24 @@ export const addItemToCart = ({cartId, quantity, productId}) => dispatch => {
     axios
       .post('/api/carts/', {quantity, productId})
       .then(({data}) => {
-        console.log('GOT BACK FROM POST TO /carts ', data.lineItem)
         dispatch(addedItem(data.lineItem))
       })
       .catch(err => console.error(err))
 }
 
+export const newCart = () => dispatch => {
+  axios
+    .post('/api/carts/')
+    .then(({data}) => {
+      dispatch(cartCreated(data.cartId))
+    })
+    .catch(err => console.error(err))
+}
+
 export const editItemInCart = ({cartId, lineItem}) => dispatch => {
-  console.log('EDITING', cartId, lineItem)
   axios
     .put(`/api/carts/${cartId}/items/${lineItem.id}`, lineItem)
     .then(({data}) => {
-      console.log('DATA', data)
       dispatch(editedItem(data))
     })
     .catch(err => console.error(err))
@@ -62,10 +68,10 @@ export const editItemInCart = ({cartId, lineItem}) => dispatch => {
 
 // REDUCER
 export default function(state = defaultCart, action) {
-  console.log('CART ACTION', action)
   switch (action.type) {
     case GOT_CART:
       return {
+        ...state,
         cartId: action.cart.id,
         byId: action.cart.cartLineItems.reduce((result, item) => {
           result[item.id] = item
@@ -84,8 +90,14 @@ export default function(state = defaultCart, action) {
           .concat(action.item.id)
           .sort(ascending)
       }
+
     case CART_EMPTY:
       return defaultCart
+    case CART_CREATED:
+      return {
+        ...defaultCart,
+        cartId: action.cartId
+      }
     default:
       return state
   }
