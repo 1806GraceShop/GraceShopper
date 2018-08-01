@@ -11,15 +11,22 @@ class Categories extends React.Component {
   render() {
     return (
       <div className="container">
-          <p>In the Category component!!!</p>
-
-
+          <h5>Categories</h5>
         <div className="container">
-          {this.props.categories.map(category => (
-            <Link  key={category.id} to={`/category/${category.id}`}>
-            <p>{category.name} </p>
-            </Link>
-          ))}
+          {this.props.categories.map(category => {
+            let catText
+            if (category.id === +this.props.catId) {
+              catText = <Link  key={category.id} to={`/category/${category.id}`}><p><div className="blue-text blue lighten-5">{category.name}</div></p></Link>
+            } else {
+              catText = <Link  key={category.id} to={`/category/${category.id}`}><p>{category.name}</p></Link>
+            }
+            return (
+              <div>
+                {catText}
+              </div>
+            )
+          }
+          )}
         </div>
 
       </div>
