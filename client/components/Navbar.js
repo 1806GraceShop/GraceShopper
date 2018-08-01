@@ -46,7 +46,7 @@ const LoggedOutLinks = props => (
 )
 
 const Navbar = props => (
-  <div className="navbar-fixed">
+  <div>
     <nav className="light-red lighten-1" role="navigation">
       <div className="nav-wrapper container">
         <Link to="/" className="brand-logo logo-container">
