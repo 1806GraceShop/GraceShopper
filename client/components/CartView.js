@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {getCartItemsWithDetails} from '../store'
-import {AddToCartButton, SmallAddToCartButton} from '../components'
+import {ModifyCartButton, SmallModifyCartButton} from '../components'
 
 /**
  * COMPONENT
@@ -27,15 +27,20 @@ export const CartView = ({cart}) => {
               <td>{item.product.title}</td>
               <td>${item.product.price}</td>
               <td className="right-align">
-                <a className="waves-effect waves-teal btn-small">
-                  <i className="material-icons ">remove</i>
-                </a>
+                <ModifyCartButton
+                  productId={item.product.id}
+                  buttonTypeComponent={SmallModifyCartButton}
+                  actionName="remove"
+                  nextQuantity={quantity => --quantity}
+                />
               </td>
               <td className="center-align">{item.cartItem.quantity}</td>
               <td className="left-align">
-                <AddToCartButton
+                <ModifyCartButton
                   productId={item.product.id}
-                  buttonTypeComponent={SmallAddToCartButton}
+                  buttonTypeComponent={SmallModifyCartButton}
+                  actionName="add"
+                  nextQuantity={quantity => ++quantity}
                 />
               </td>
             </tr>

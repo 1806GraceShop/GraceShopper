@@ -101,7 +101,7 @@ export const getLineItemByProductId = (state, productId) => {
   )
 }
 
-export const quantityByProductId = (state, productId) => {
+export const cartQuantityByProdId = (state, productId) => {
   return getLineItemByProductId(state, productId).quantity || 0
 }
 

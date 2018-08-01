@@ -1,10 +1,5 @@
 [
   {
-    "quantity": 1,
-    "productId": 1,
-    "cartId": 1
-  },
-  {
     "quantity": 2,
     "productId": 2,
     "cartId": 1

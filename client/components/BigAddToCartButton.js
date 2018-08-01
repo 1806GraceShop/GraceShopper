@@ -1,13 +1,12 @@
 import React from 'react'
 
-// console.log('props in the big add', this.props)
 const BigAddToCartButton = props => (
   <button
     className="waves-effect waves-light btn"
     alt="Add to Cart"
     type="button"
-    onClick={props.add}
-    disabled={!props.productQuantity}
+    onClick={props.modifyCart}
+    disabled={props.disabled}
   >
     Add to Cart
     <i className="material-icons right" alt="Add to cart">

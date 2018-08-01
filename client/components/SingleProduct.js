@@ -1,8 +1,13 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { Link } from 'react-router-dom'
-import {AddToCartButton, BigAddToCartButton, AdminToolEditProduct, AllReviews} from '../components'
-import { getProductsReviews } from '../store'
+import {Link} from 'react-router-dom'
+import {
+  ModifyCartButton,
+  BigAddToCartButton,
+  AdminToolEditProduct,
+  AllReviews
+} from '../components'
+import {getProductsReviews} from '../store'
 
 const SingleProduct = props => {
   const {isAdmin, match, product} = props
@@ -24,9 +29,11 @@ const SingleProduct = props => {
         <div className="col s12 m7 pull-m5 center-align">
           <h6 className="col s12 m3 flow-text">${price}</h6>
           <div className="col s12 m9">
-            <AddToCartButton
+            <ModifyCartButton
               productId={props.product.id}
+              actionName="add"
               buttonTypeComponent={BigAddToCartButton}
+              nextQuantity={quantity => ++quantity}
             />
           </div>
         </div>
@@ -39,9 +46,9 @@ const SingleProduct = props => {
           className="waves-effect red waves-light btn"
         >
           Add Review
-                <i className="material-icons right">edit</i>
+          <i className="material-icons right">edit</i>
         </Link>
-        <AllReviews review = {props.review}/>
+        <AllReviews review={props.review} />
       </div>
     </div>
   )

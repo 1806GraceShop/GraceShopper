@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import {ModifyCartButton, AddToCartFromCardButton} from '../components'
 
 const ProductCard = ({product}) => (
   <div className="col s12 m6 xl4">
@@ -14,16 +15,19 @@ const ProductCard = ({product}) => (
             {product.title}
           </span>
         </div>
-        <div className="card-action">
-          <span>
-            {'$ '}
-            {product.price}
-          </span>
-          <i className="material-icons right green-text" alt="Add to cart">
-            add_shopping_cart
-          </i>
-        </div>
       </Link>
+      <div className="card-action">
+        <span>
+          {'$ '}
+          {product.price}
+        </span>
+        <ModifyCartButton
+          productId={product.id}
+          actionName="add"
+          buttonTypeComponent={AddToCartFromCardButton}
+          nextQuantity={quantity => ++quantity}
+        />
+      </div>
     </div>
   </div>
 )
