@@ -70,7 +70,6 @@ export const updateProductById = product => dispatch => {
 }
 
 // REDUCER
-
 export default function(state = defaultProducts, action) {
   switch (action.type) {
     case GET_PRODUCTS:
